@@ -1,0 +1,29 @@
+set clipboard+=unnamed
+
+imap jj <ESC>
+
+nnoremap <Leader>s :%s/\<<C-r><C-w>\>/
+nnoremap <Leader>a :noh<CR>
+nnoremap <Leader>c *Nciw
+nnoremap <Leader>f :/\%<c-r>=line('.')<cr>l
+
+nnoremap <CR> o<ESC>
+nnoremap <C-CR> O<ESC>
+
+vnoremap <Leader>c "hy:%s/<C-r>h//g<left><left>
+vnoremap <Leader>s "hy:/<C-r>h<CR>
+
+" IdeaVim plugins
+set surround
+set commentary
+" Proper paste without losing the text in the register
+set ReplaceWithRegister
+" Relative Line Numbers
+set rnu
+" Absolute Line Number on selected line
+set nu
+
+" paste maps
+nmap <Leader>p gr
+nmap <Leader>pp grr
+xmap <Leader>p gr

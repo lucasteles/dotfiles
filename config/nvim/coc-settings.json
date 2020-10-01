@@ -1,0 +1,68 @@
+{
+
+  "coc.source.conjure.priority": 99,
+  "diagnostic.errorSign":"\uf444",
+  "diagnostic.warningSign":"\uf445",
+  "diagnostic.infoSign":"\uf48b",
+  "diagnostic.hintSign":"\uf48b",
+  "suggest.maxCompleteItemCount": 15,
+  "suggest.noselect": false,
+  "suggest.removeDuplicateItems": true,
+  "codeLens.enable": true,
+  "diagnostic.displayByAle": true,
+  "languageserver": {
+
+    "clojure-lsp": {
+      "command": "bash",
+      "args": ["-c", "clojure-lsp"],
+      "filetypes": ["clojure"],
+      "rootPatterns": ["project.clj", "deps.edn"],
+      "additionalSchemes": ["zipfile", "jar"],
+      "disableDiagnostics": false,
+      "trace.server": "on",
+      "initializationOptions": {}
+    },
+
+    "haskell": {
+      "command": "haskell-language-server-wrapper",
+      "args": ["--lsp"],
+      "rootPatterns": ["*.cabal", "stack.yaml", "cabal.project", "package.yaml", "hie.yaml"],
+      "filetypes": ["haskell", "lhaskell"]
+    },
+
+    "elmLS": {
+      "command": "elm-language-server",
+      "filetypes": ["elm"],
+      "rootPatterns": ["elm.json"],
+      "initializationOptions": {
+        "elmAnalyseTrigger": "never"
+      }
+    },
+
+    "ccls": {
+      "command": "ccls",
+      "filetypes": [ "c", "cpp", "objc", "objcpp" ],
+      "rootPatterns": [ ".ccls", "compile_commands.json", ".vim/", ".git/", ".hg/" ],
+      "initializationOptions": {
+        "cache": {
+          "directory": "/tmp/ccls"
+        },
+        // see https://github.com/MaskRay/ccls/issues/191
+        "clang": {
+          // from clang -v -fsyntax-only -x c++ /dev/null
+          "extraArgs": [
+            "-isystem/usr/local/include",
+            "-isystem/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/../include/c++/v1",
+            "-isystem/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/clang/11.0.3/include",
+            "-isystem/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include",
+            "-isystem/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include",
+            "-isystem/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/System/Library/Frameworks"
+          ],
+          //From clang -print-resource-dir
+          "resourceDir": "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/clang/11.0.3"
+        }
+      }
+    }
+
+  }
+}

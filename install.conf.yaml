@@ -1,0 +1,17 @@
+- clean: ['~']
+
+- link:
+    ~/.gitconfig: gitconfig
+    ~/.tmux.conf: tmux.conf
+    ~/.zshrc: zshrc
+    ~/.config: config
+    ~/.ideavimrc: ideavimrc
+
+- shell:
+    -
+        command: 'sh -c "$(curl -fsSL https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh)"'
+        stdin: true
+        stdout: true
+        stderr: true
+        description: Install oh-my-zsh
+

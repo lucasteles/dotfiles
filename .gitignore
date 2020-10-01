@@ -1,0 +1,11 @@
+config/NuGet
+config/asciinema
+config/configstore
+config/htop
+config/xbuild
+config/stetic
+config/coc/extensions
+config/.DS_Store
+config/.mono
+config/Microsoft\\VisualStudio Services
+
