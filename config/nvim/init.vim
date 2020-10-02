@@ -216,13 +216,18 @@ highlight ALEErrorSign ctermbg=NONE ctermfg=darkred
 highlight ALEWarningSign ctermbg=NONE ctermfg=yellow
 highlight ALEError cterm=undercurl ctermfg=none
 highlight ALEWarning cterm=undercurl ctermfg=none
-let g:ale_linters = { 'javascript': ['eslint'], 'scss': ['stylelint'], 'cs': ['OmniSharp'], 'elm': ['elm-ls'] }
+let g:ale_linters = { 
+\ 'javascript': ['eslint'], 
+\ 'scss': ['stylelint'], 
+\ 'cs': ['OmniSharp'], 
+\ 'elm': ['elm-ls'],
+\ 'cpp': ['ccls']
+\ }
 let g:ale_fixers = {
 \   '*': ['remove_trailing_lines', 'trim_whitespace'],
 \   'javascript': ['eslint'],
 \   'scss': ['stylelint'],
-\   'haskell': ['hlint'],
-\   'cpp': ['ccls']
+\   'haskell': ['hlint']
 \}
 let g:ale_cpp_ccls_init_options = {
 \   'cache': {
@@ -265,7 +270,7 @@ endfunction
 autocmd! User GoyoEnter nested call <SID>goyo_enter()
 autocmd! User GoyoLeave nested call <SID>goyo_leave()
 
-nnoremap <A-CR> :Goyo<CR>
+nnoremap <leader><M-CR> :Goyo<CR>
 
 
 " Vim Markdown

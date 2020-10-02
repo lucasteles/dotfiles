@@ -141,3 +141,6 @@ zle -N zle-keymap-select
 
 eval $(thefuck --alias)
 [ -f "/Users/lucas.teles/.ghcup/env" ] && source "/Users/lucas.teles/.ghcup/env" # ghcup-env
+
+source ~/.config/zsh/zsh-vimode-visual/zsh-vimode-visual.zsh
+

@@ -151,6 +151,7 @@ brew 'ykman'
 brew 'ykpers'
 brew 'z'
 brew 'zstd'
+brew 'ccls'
 
 # Cask Apps
 cask 'adoptopenjdk8'
