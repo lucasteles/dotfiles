@@ -1,6 +1,7 @@
 # If you come from bash you might have to change your $PATH.
 export PATH=$HOME/bin:/usr/local/bin:$PATH
 export PATH=$HOME/bin:/usr/.local/bin:$PATH
+export PATH=$HOME/.dotnet/tools::$PATH
 
 # Path to your oh-my-zsh installation.
 export ZSH="/Users/lucas.teles/.oh-my-zsh"
@@ -115,10 +116,27 @@ eval "$(rbenv init -)"
 #
 #
 #
-
+autoload compinit -Uz && compinit
+source "$NU_HOME/nucli/nu.bashcompletion"
 export CDPATH=~/dev/nu
+
+
 alias vim="nvim"
 alias vi="nvim"
+alias cls="clear"
+alias catx="\cat"
+alias cat="bat"
+alias xclip="pbcopy"
+
+alias ls="exa --icons"
+alias lsx="\ls"
+
+alias tree="exa -T --icons"
+alias treex="\tree"
+
+bindkey '\e[A' history-search-backward
+bindkey '\e[B' history-search-forward
+
 
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 
@@ -144,3 +162,7 @@ eval $(thefuck --alias)
 
 source ~/.config/zsh/zsh-vimode-visual/zsh-vimode-visual.zsh
 
+
+export NVM_DIR="$HOME/.nvm"
+[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
+[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion

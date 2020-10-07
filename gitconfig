@@ -21,14 +21,13 @@
     st = status
     ci = commit  
     cm = !git add -A && git commit  -m
-    scm = !git add -A && git commit --author='lucasteles <eu@lucasteles.net>' -S -m
-    hard-reset = !git reset --hard HEAD && git clean -fd
+	save = !git add -A && git commit -m 'SAVEPOINT'   
+    hard-reset = !git save && git reset --hard HEAD~1 && git clean -fd
     co = checkout
     ce = config --global -e
     br = branch
     fixup = commit --all --amend  --no-edit
     fixmessage = commit --amend -m 
-    sfixup = commit --author='Lucas Teles <eu@lucasteles.net>' -S --all --amend --no-edit
     un = !GIT_CURRENT_BRANCH=$(git rev-parse --abbrev-ref HEAD) && git log origin/$GIT_CURRENT_BRANCH..
     pend = !GIT_CURRENT_BRANCH=$(git rev-parse --abbrev-ref HEAD) && git log ..origin/$GIT_CURRENT_BRANCH
     wip = !git add -A && git commit  -m "WIP"
@@ -39,19 +38,20 @@
     fapull = !git fetch --all --prune && git merge FETCH_HEAD
     bgone = !git branch -vv | grep ': gone]' | awk '{print $1}'
     send = "!g() { git add -A && git commit  -m \"$*\" && "git push origin $(git rev-parse --abbrev-ref HEAD)"; }; g"
-    
     next = "!n() { git hard-reset && git log --reverse --pretty=%H master | grep -A 1 $(git rev-parse HEAD) | tail -n1 | xargs git checkout; }; n"
     prev = "!p() { git hard-reset && git checkout HEAD^1; }; p"
 
 
 [core]
     autocrlf = false
-    editor = nvim    
+    editor = vim    
 	pager = diff-so-fancy | less --tabs=4 -RFX
-
+	excludesfile = /Users/lucas.teles/.gitignore_global
 
 [filter "lfs"]
-	smudge = git-lfs smudge -- %f
+	smudge = git-lfs smudge --skip %f
 	process = git-lfs filter-process
 	required = true
 	clean = git-lfs clean -- %f
+[url "git@github.com:"]
+	insteadOf = https://github.com/

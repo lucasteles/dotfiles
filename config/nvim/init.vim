@@ -20,7 +20,7 @@ set nowritebackup
 set backspace=2 " make backspace work like most other apps
 set shiftwidth=4
 set nowrap
-set colorcolumn=80
+set colorcolumn=120
 set list
 set listchars=tab:>-     " > is shown at the beginning, - throughout
 set expandtab
