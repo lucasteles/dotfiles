@@ -100,6 +100,7 @@ Plug 'Xuyuanp/nerdtree-git-plugin'
 Plug 'joshdick/onedark.vim'
 Plug 'arcticicestudio/nord-vim'
 Plug 'rakr/vim-one'
+Plug 'kadekillary/Turtles'
 
 Plug 'ryanoasis/vim-devicons'
 Plug 'kshenoy/vim-signature'
@@ -134,8 +135,8 @@ Plug 'thosakwe/vim-flutter'
 call plug#end()
 
 set termguicolors
-colorscheme one
-let g:airline_theme='one'
+colorscheme turtles
+let g:airline_theme='onedark'
 
 command! Vimrc :vs $MYVIMRC
 

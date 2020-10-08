@@ -14,7 +14,7 @@ export ZSH="/Users/lucas.teles/.oh-my-zsh"
 ZSH_THEME="typewritten/typewritten"
 
 export TYPEWRITTEN_COLOR_MAPPINGS="primary:#9580FF;secondary:#8AFF80;accent:#FFFF80;info_negative:#FF80BF;info_positive:#8AFF80;info_neutral_1:#FF9580;info_neutral_2:#FFFF80;info_special:#80FFEA"
-
+TYPEWRITTEN_PROMPT_LAYOUT="pure"
 # Set list of themes to pick from when loading at random
 # Setting this variable when ZSH_THEME=random will cause zsh to load
 # a theme from this variable instead of looking in $ZSH/themes/
