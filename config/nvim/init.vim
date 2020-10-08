@@ -1,7 +1,6 @@
 set clipboard=unnamed
-
-
 syntax on
+filetype plugin indent on
 filetype plugin on
 
 set rnu
@@ -38,9 +37,6 @@ nnoremap <M-u> :m .+1<CR>==
 vnoremap <M-i> :m '<-2<CR>gv=gv
 vnoremap <M-u> :m '>+1<CR>gv=gv
 
-nnoremap <leader><S-TAB> :bp!<CR>
-nnoremap <leader><TAB> :bn!<CR>
-
 nnoremap <silent> <Space> @=(foldlevel('.')?'za':"\<Space>")<CR>
 vnoremap <Space> zf
 
@@ -68,7 +64,7 @@ Plug 'w0rp/ale'
 Plug 'sheerun/vim-polyglot'
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
 Plug 'jpalardy/vim-slime'
-
+Plug 'dhruvasagar/vim-zoom'
 " Plug 'autozimu/LanguageClient-neovim', {'branch': 'next', 'do': './install.sh'}
 Plug 'junegunn/goyo.vim'                            " Distraction free mode
 Plug 'tpope/vim-repeat'
@@ -76,7 +72,6 @@ Plug 'tpope/vim-repeat'
 "Navigation
 Plug 'bkad/CamelCaseMotion'
 Plug 'tmhedberg/matchit'
-Plug 'easymotion/vim-easymotion'
 
 " Text transformations
 Plug 'vim-scripts/ReplaceWithRegister' "replace withot losing yank with gr
@@ -102,14 +97,16 @@ Plug 'scrooloose/nerdtree'
 Plug 'Xuyuanp/nerdtree-git-plugin'
 
 " Themes / VIsual
-Plug 'kshenoy/vim-signature'
 Plug 'joshdick/onedark.vim'
+Plug 'arcticicestudio/nord-vim'
+Plug 'rakr/vim-one'
+
 Plug 'ryanoasis/vim-devicons'
+Plug 'kshenoy/vim-signature'
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
 Plug 'luochen1990/rainbow'
 Plug 'machakann/vim-highlightedyank'
-" Plug 'kien/rainbow_parentheses.vim'
 
 " Web
 Plug 'mattn/emmet-vim'
@@ -130,15 +127,17 @@ Plug 'lucasteles/fsi.vim'
 Plug 'OmniSharp/omnisharp-vim'
 Plug 'puremourning/vimspector'
 
-call plug#end()
-" colorscheme novum
-" let g:airline_theme='jellybeans'
+"Flutter
+Plug 'dart-lang/dart-vim-plugin'
+Plug 'thosakwe/vim-flutter'
 
-colorscheme onedark
-let g:airline_theme='onedark'
+call plug#end()
+
+set termguicolors
+colorscheme one
+let g:airline_theme='one'
 
 command! Vimrc :vs $MYVIMRC
-
 
 " NERDTree
 map <leader>n :NERDTreeToggle<CR> " Leader + n open/close tree
@@ -153,14 +152,16 @@ let NERDTreeIgnore=['\.git$[[dir]]']
 " VIM Airline
 let g:airline#extensions#tabline#enabled = 1
 set laststatus=2
+
 let g:airline_powerline_fonts = 1
 
 " Rainbow
 let g:rainbow_active = 1 "
-" au VimEnter * RainbowParenthesesToggle
-" au Syntax * RainbowParenthesesLoadRound
-" au Syntax * RainbowParenthesesLoadSquare
-" au Syntax * RainbowParenthesesLoadBraces
+let lightcolors =  ['lightblue', 'lightyellow', 'red', 'darkgreen', 'darkyellow', 'lightred', 'yellow', 'cyan', 'magenta', 'white']
+let darkcolors =  ['blue', 'yellow', 'red', 'green', 'yellow', 'red',  'cyan', 'magenta', 'white']
+let g:rainbow_conf = {
+\   'ctermfgs': darkcolors
+\}
 
 
 " Ag
@@ -285,7 +286,7 @@ let g:conjure#client#clojure#nrepl#eval#auto_require = v:false
 
 " COC.Nvim
 "
-let g:coc_global_extensions = ['coc-json', 'coc-conjure', 'coc-rls', 'coc-tsserver', 'coc-eslint', 'coc-fsharp']
+let g:coc_global_extensions = ['coc-json', 'coc-conjure', 'coc-rls', 'coc-tsserver', 'coc-eslint', 'coc-fsharp', 'coc-flutter']
 nmap <silent> gd <Plug>(coc-definition)
 nmap <silent> gy <Plug>(coc-type-definition)
 nmap <silent> gi <Plug>(coc-implementation)
@@ -384,3 +385,10 @@ augroup END
 
 "vimspector
 let g:vimspector_enable_mappings = 'VISUAL_STUDIO'
+
+set statusline+=%{zoom#statusline()}
+
+
+nnoremap <leader><S-TAB> :bp!<CR>
+nnoremap <leader><TAB> :bn!<CR>
+nnoremap <leader>q :bp<cr>:bd #<cr>
