@@ -429,10 +429,6 @@ autocmd BufEnter conjure-log-* AnsiEsc
 " Disable default mappings
 let g:nnn#set_default_mappings = 0
 
-" Then set your own
-nnoremap <silent> <leader>nn :NnnPicker<CR>
-
-
 " Start nnn in the current file's directory
 nnoremap <leader>m :NnnPicker %:p:h<CR>
 " Floating window (neovim latest and vim with patch 8.2.191)

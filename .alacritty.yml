@@ -29,6 +29,7 @@ key_bindings:
 # Colors (One Dark)
 colors:
   primary:
+    # background: '#282c34'
     background: '#282c34'
     foreground: '#abb2bf'
   cursor:
