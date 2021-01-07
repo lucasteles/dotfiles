@@ -1,0 +1,49 @@
+font:
+  size: 18
+  normal:
+    family: FiraCode Nerd Font
+    style: Regular
+
+window: 
+  dimensions:
+    columns: 120
+    lines: 250
+  decorations: full
+  padding:
+    x: 5
+    y: 5
+
+background_opacity: 0.85
+key_bindings:
+  - { key: Comma,     mods: Command,      command:
+      {program: "open", args: ["~/.config/alacritty/alacritty.yml"]}     }
+  - { key: N,         mods: Command,      action: SpawnNewInstance       }
+  - { key: Space,     mods: Alt,          chars: " "                     }
+  - { key: Back, mods: Super, chars: "\x15" } # delete word/line
+  - { key: Left,     mods: Alt,     chars: "\x1bb"                       } # one word left
+  - { key: Right,    mods: Alt,     chars: "\x1bf"                       } # one word right
+  - { key: Left,     mods: Command, chars: "\x1bOH",   mode: AppCursor   } # Home
+  - { key: Right,    mods: Command, chars: "\x1bOF",   mode: AppCursor   } # End
+  - { key: 36,      mods: Command, action: ToggleFullscreen }
+
+# Colors (One Dark)
+colors:
+  primary:
+    background: '#282c34'
+    foreground: '#abb2bf'
+  cursor:
+    text:       CellBackground
+    cursor:     '#528bff' # syntax-cursor-color
+  selection:
+    text:       CellForeground
+    background: '#3e4451' # syntax-selection-color
+  normal:
+    black:      '#5c6370' # mono-3
+    red:        '#e06c75' # red 1
+    green:      '#98c379'
+    yellow:     '#e5c07b' # orange 2
+    blue:       '#61afef'
+    magenta:    '#c678dd'
+    cyan:       '#56b6c2'
+    white:      '#828997' # mono-2
+

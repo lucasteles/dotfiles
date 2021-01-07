@@ -40,7 +40,7 @@ vnoremap <M-u> :m '>+1<CR>gv=gv
 nnoremap <silent> <Space> @=(foldlevel('.')?'za':"\<Space>")<CR>
 vnoremap <Space> zf
 
-vnoremap <C-r> "hy:%s/\<<C-r>h\>//gc<left><left><left
+vnoremap <C-r> "hy:%s/\<<C-r>h\>//gc<left><left><left>
 
 nnoremap <Leader>s :%s/\<<C-r><C-w>\>/
 nnoremap <Leader>c *Nciw
@@ -57,21 +57,6 @@ call plug#begin('~/.vim/plugged')
 
 command! Encode64 execute '.!base64'
 command! Decode64 execute '.!base64 -d'
-
-
-vnoremap // y/\V<C-R>=escape(@",'/\')<CR><CR>
-" Search for selected text, forwards or backwards.
-vnoremap <silent> * :<C-U>
-  \let old_reg=getreg('"')<Bar>let old_regtype=getregtype('"')<CR>
-  \gvy/<C-R>=&ic?'\c':'\C'<CR><C-R><C-R>=substitute(
-  \escape(@", '/\.*$^~['), '\_s\+', '\\_s\\+', 'g')<CR><CR>
-  \gVzv:call setreg('"', old_reg, old_regtype)<CR>
-vnoremap <silent> # :<C-U>
-  \let old_reg=getreg('"')<Bar>let old_regtype=getregtype('"')<CR>
-  \gvy?<C-R>=&ic?'\c':'\C'<CR><C-R><C-R>=substitute(
-  \escape(@", '?\.*$^~['), '\_s\+', '\\_s\\+', 'g')<CR><CR>
-  \gVzv:call setreg('"', old_reg, old_regtype)<CR>
-
 
 " Utilities
 Plug 'junegunn/vim-plug'
@@ -102,23 +87,21 @@ Plug 'tommcdo/vim-exchange' " exchange text with cx
 Plug 'kana/vim-textobj-user' " vim-textobj-entire
 Plug 'kana/vim-textobj-entire' "{motion}ae  entire buffer 
 " Plug 'cohama/lexima.vim' "auto close parenthesis
-Plug 'junegunn/vim-easy-align' "Text alignment  j
 
 "Git
 Plug 'tpope/vim-fugitive'
-" Plug 'airblade/vim-gitgutter'
+Plug 'airblade/vim-gitgutter'
 
 " Files
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
 Plug 'junegunn/fzf.vim'
 Plug 'scrooloose/nerdtree'
 Plug 'Xuyuanp/nerdtree-git-plugin'
-Plug 'mcchrish/nnn.vim'
 
 " Themes / VIsual
+Plug 'joshdick/onedark.vim'
 Plug 'arcticicestudio/nord-vim'
 Plug 'rakr/vim-one'
-Plug 'joshdick/onedark.vim'
 Plug 'kadekillary/Turtles'
 
 Plug 'ryanoasis/vim-devicons'
@@ -140,15 +123,12 @@ Plug 'RyanMillerC/better-vim-tmux-resizer'
 
 "Clojure
 Plug 'guns/vim-clojure-static'
-Plug 'Olical/conjure'
-Plug 'Olical/AnsiEsc'
-" Plug 'tpope/vim-fireplace'
-" Plug 'jrdoane/vim-clojure-highlight'
+Plug 'Olical/conjure', {'tag': 'v4.5.0'}
 
 ".NET
 " Plug 'lucasteles/fsi.vim'
-" Plug 'OmniSharp/omnisharp-vim'
-" Plug 'puremourning/vimspector'
+Plug 'OmniSharp/omnisharp-vim'
+Plug 'puremourning/vimspector'
 
 "Flutter
 Plug 'dart-lang/dart-vim-plugin'
@@ -231,7 +211,6 @@ autocmd  FileType fzf set laststatus=0 noshowmode noruler
 
 
 " Ale
-let g:ale_sign_column_always = 1
 let g:ale_lint_on_text_changed = 0 "dont lint on text change
 let g:ale_lint_on_save = 1 "lint on save
 let g:ale_sign_error = '✘'
@@ -245,13 +224,10 @@ let g:ale_statusline_format = ['E:%s', 'W:%s', 'OK']
 let g:ale_linters = { 
 \ 'javascript': ['eslint'], 
 \ 'scss': ['stylelint'], 
+\ 'cs': ['OmniSharp'], 
 \ 'elm': ['elm-ls'],
-\ 'clojure': [],
 \ 'cpp': ['ccls']
 \ }
-
-" \ 'cs': ['OmniSharp'], 
-
 let g:ale_fixers = {
 \   '*': ['remove_trailing_lines', 'trim_whitespace'],
 \   'javascript': ['eslint'],
@@ -264,9 +240,12 @@ let g:ale_cpp_ccls_init_options = {
 \   }
 \ }
 
+
+
 nnoremap <silent> <leader>gf :ALEDetail<cr>
 nnoremap <silent> <leader>gF :ALEFix<cr>
 nnoremap <silent> <leader>ge :CocDiagnostics<cr>
+
 
 " Goyo
 let g:goyo_width = 120
@@ -303,6 +282,8 @@ nnoremap <leader><M-CR> :Goyo<CR>
 
 " Vim Markdown
 let g:vim_markdown_folding_disabled = 1
+
+
 
 " Clojure
 let g:conjure#mapping#doc_word = "K"
@@ -362,81 +343,56 @@ let g:slime_target = "tmux"
 
 
 "OmniSharp
-"augroup omnisharp_commands
-"  autocmd!
+augroup omnisharp_commands
+  autocmd!
 
-"  let g:OmniSharp_diagnostic_showid = 1
-"  " Tabtop size 4
-"  autocmd FileType cs setlocal expandtab tabstop=4 shiftwidth=4 softtabstop=4
+  let g:OmniSharp_diagnostic_showid = 1
+  " Tabtop size 4
+  autocmd FileType cs setlocal expandtab tabstop=4 shiftwidth=4 softtabstop=4
 
-"  " Show type information automatically when the cursor stops moving.
-"  " Note that the type is echoed to the Vim command line, and will overwrite
-"  " any other messages in this space including e.g. ALE linting messages.
-"  autocmd CursorHold *.cs OmniSharpTypeLookup
+  " Show type information automatically when the cursor stops moving.
+  " Note that the type is echoed to the Vim command line, and will overwrite
+  " any other messages in this space including e.g. ALE linting messages.
+  autocmd CursorHold *.cs OmniSharpTypeLookup
 
-"  " The following commands are contextual, based on the cursor position.
-"  autocmd FileType cs nmap <silent> <buffer> gd <Plug>(omnisharp_go_to_definition)
-"  autocmd FileType cs nmap <silent> <buffer> gr <Plug>(omnisharp_find_usages)
-"  autocmd FileType cs nmap <silent> <buffer> gi <Plug>(omnisharp_find_implementations)
-"  autocmd FileType cs nmap <silent> <buffer> gD <Plug>(omnisharp_preview_definition)
-"  autocmd FileType cs nmap <silent> <buffer> gI <Plug>(omnisharp_preview_implementations)
-"  autocmd FileType cs nmap <silent> <buffer> gy <Plug>(omnisharp_type_lookup)
-"  autocmd FileType cs nmap <silent> <buffer> K <Plug>(omnisharp_documentation)
-"  autocmd FileType cs nmap <silent> <buffer> <Leader><Leader>s <Plug>(omnisharp_find_symbol)
-"  autocmd FileType cs nmap <silent> <buffer> <Leader><Leader>f <Plug>(omnisharp_fix_usings)
-"  autocmd FileType cs nmap <silent> <buffer> <C-\> <Plug>(omnisharp_signature_help)
-"  autocmd FileType cs imap <silent> <buffer> <C-\> <Plug>(omnisharp_signature_help)
+  " The following commands are contextual, based on the cursor position.
+  autocmd FileType cs nmap <silent> <buffer> gd <Plug>(omnisharp_go_to_definition)
+  autocmd FileType cs nmap <silent> <buffer> gr <Plug>(omnisharp_find_usages)
+  autocmd FileType cs nmap <silent> <buffer> gi <Plug>(omnisharp_find_implementations)
+  autocmd FileType cs nmap <silent> <buffer> gD <Plug>(omnisharp_preview_definition)
+  autocmd FileType cs nmap <silent> <buffer> gI <Plug>(omnisharp_preview_implementations)
+  autocmd FileType cs nmap <silent> <buffer> gy <Plug>(omnisharp_type_lookup)
+  autocmd FileType cs nmap <silent> <buffer> K <Plug>(omnisharp_documentation)
+  autocmd FileType cs nmap <silent> <buffer> <Leader><Leader>s <Plug>(omnisharp_find_symbol)
+  autocmd FileType cs nmap <silent> <buffer> <Leader><Leader>f <Plug>(omnisharp_fix_usings)
+  autocmd FileType cs nmap <silent> <buffer> <C-\> <Plug>(omnisharp_signature_help)
+  autocmd FileType cs imap <silent> <buffer> <C-\> <Plug>(omnisharp_signature_help)
 
-"  " Navigate up and down by method/property/field
-"  autocmd FileType cs nmap <silent> <buffer> [[ <Plug>(omnisharp_navigate_up)
-"  autocmd FileType cs nmap <silent> <buffer> ]] <Plug>(omnisharp_navigate_down)
-"  " Find all code errors/warnings for the current solution and populate the quickfix window
-"  autocmd FileType cs nmap <silent> <buffer> <Leader>osgcc <Plug>(omnisharp_global_code_check)
-"  " Contextual code actions (uses fzf, CtrlP or unite.vim selector when available)
-"  autocmd FileType cs nmap <silent> <buffer> ac <Plug>(omnisharp_code_actions)
-"  " Repeat the last code action performed (does not use a selector)
-"  autocmd FileType cs nmap <silent> <buffer> <Leader>os. <Plug>(omnisharp_code_action_repeat)
-"  autocmd FileType cs xmap <silent> <buffer> <Leader>os. <Plug>(omnisharp_code_action_repeat)
+  " Navigate up and down by method/property/field
+  autocmd FileType cs nmap <silent> <buffer> [[ <Plug>(omnisharp_navigate_up)
+  autocmd FileType cs nmap <silent> <buffer> ]] <Plug>(omnisharp_navigate_down)
+  " Find all code errors/warnings for the current solution and populate the quickfix window
+  autocmd FileType cs nmap <silent> <buffer> <Leader>osgcc <Plug>(omnisharp_global_code_check)
+  " Contextual code actions (uses fzf, CtrlP or unite.vim selector when available)
+  autocmd FileType cs nmap <silent> <buffer> ac <Plug>(omnisharp_code_actions)
+  " Repeat the last code action performed (does not use a selector)
+  autocmd FileType cs nmap <silent> <buffer> <Leader>os. <Plug>(omnisharp_code_action_repeat)
+  autocmd FileType cs xmap <silent> <buffer> <Leader>os. <Plug>(omnisharp_code_action_repeat)
 
-"  autocmd FileType cs nmap <silent> <buffer> <Leader>os= <Plug>(omnisharp_code_format)
+  autocmd FileType cs nmap <silent> <buffer> <Leader>os= <Plug>(omnisharp_code_format)
 
-"  autocmd FileType cs nmap <silent> <buffer> rn <Plug>(omnisharp_rename)
+  autocmd FileType cs nmap <silent> <buffer> rn <Plug>(omnisharp_rename)
 
-"  autocmd FileType cs nmap <silent> <buffer> <Leader>osre <Plug>(omnisharp_restart_server)
-"  autocmd FileType cs nmap <silent> <buffer> <Leader>osst <Plug>(omnisharp_start_server)
-"  autocmd FileType cs nmap <silent> <buffer> <Leader>ossp <Plug>(omnisharp_stop_server)
-"augroup END
+  autocmd FileType cs nmap <silent> <buffer> <Leader>osre <Plug>(omnisharp_restart_server)
+  autocmd FileType cs nmap <silent> <buffer> <Leader>osst <Plug>(omnisharp_start_server)
+  autocmd FileType cs nmap <silent> <buffer> <Leader>ossp <Plug>(omnisharp_stop_server)
+augroup END
 
 
-""vimspector
-"let g:vimspector_enable_mappings = 'VISUAL_STUDIO'
+"vimspector
+let g:vimspector_enable_mappings = 'VISUAL_STUDIO'
 
-" Start interactive EasyAlign in visual mode (e.g. vipga)
-xmap ga <Plug>(EasyAlign)
-
-" Start interactive EasyAlign for a motion/text object (e.g. gaip)
-nmap ga <Plug>(EasyAlign)
-
-nnoremap <leader><leader><TAB> :bp!<CR>
+nnoremap <leader><S-TAB> :bp!<CR>
 nnoremap <leader><TAB> :bn!<CR>
 nnoremap <leader>q :bp<cr>:bd #<cr>
 command! OnlyThis execute 'bufdo bp'
-
-autocmd BufEnter conjure-log-* AnsiEsc
-
-
-" nnn
-" Disable default mappings
-let g:nnn#set_default_mappings = 0
-
-" Then set your own
-nnoremap <silent> <leader>nn :NnnPicker<CR>
-
-
-" Start nnn in the current file's directory
-nnoremap <leader>m :NnnPicker %:p:h<CR>
-" Floating window (neovim latest and vim with patch 8.2.191)
-let g:nnn#layout = { 'window': { 'width': 0.9, 'height': 0.6, 'highlight': 'Debug' } }
-" Floating window (neovim latest and vim with patch 8.2.191)
-let g:nnn#layout = { 'window': { 'width': 0.9, 'height': 0.6, 'highlight': 'Debug' } }
-

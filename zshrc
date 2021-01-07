@@ -1,3 +1,5 @@
+# if [ "$TMUX" = "" ]; then tmux; exit; fi
+
 # If you come from bash you might have to change your $PATH.
 export PATH=$HOME/bin:/usr/local/bin:$PATH
 export PATH=$HOME/bin:/usr/.local/bin:$PATH
@@ -120,6 +122,7 @@ autoload compinit -Uz && compinit
 source "$NU_HOME/nucli/nu.bashcompletion"
 export CDPATH=~/dev/nu
 
+export EDITOR='nvim'
 
 alias vim="nvim"
 alias vi="nvim"
@@ -129,17 +132,20 @@ alias cat="bat"
 alias xclip="pbcopy"
 
 alias ls="exa --icons"
+alias lss='nnn -de'
 alias lsx="\ls"
 
 alias tree="exa -T --icons"
 alias treex="\tree"
+alias du="dust"
+alias dux="\du"
+alias oops="fuck"
+alias g="lazygit"
 
 bindkey '\e[A' history-search-backward
 bindkey '\e[B' history-search-forward
 
-
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
-
 [ -f $(brew --prefix)/etc/profile.d/z.sh ] && source $(brew --prefix)/etc/profile.d/z.sh
 
 function zle-line-init zle-keymap-select {
@@ -161,8 +167,24 @@ eval $(thefuck --alias)
 [ -f "/Users/lucas.teles/.ghcup/env" ] && source "/Users/lucas.teles/.ghcup/env" # ghcup-env
 
 source ~/.config/zsh/zsh-vimode-visual/zsh-vimode-visual.zsh
+export EDITOR=Vim
 
+export GPG_TTY=$(tty)
+export PINENTRY_USER_DATA="USE_CURSES=1"
 
 export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
 [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
+
+export JAVA_8_HOME=$(/usr/libexec/java_home -v1.8)
+export JAVA_8_LEIN_JVM_OPTS="-Xverify:none -XX:+TieredCompilation -XX:TieredStopAtLevel=1"
+alias java8='export JAVA_HOME=$JAVA_8_HOME; export LEIN_JVM_OPTS=$JAVA_8_LEIN_JVM_OPTS'
+export JAVA_15_HOME=$(/usr/libexec/java_home -v15)
+export JAVA_15_LEIN_JVM_OPTS="-XX:+TieredCompilation -XX:TieredStopAtLevel=1"
+alias java15='export JAVA_HOME=$JAVA_15_HOME; export LEIN_JVM_OPTS=$JAVA_15_LEIN_JVM_OPTS'
+# default to Java 8
+java8
+
+
+export NNN_OPTS="H"
+

@@ -1,6 +1,6 @@
 [user]
-	name = "Lucas Teles "
-	email = lucas.teles@nubank.com.br
+	name = "Lucas Teles"
+	email = lucas.teles@outlook.com
 
 ; [credential]
 ;     helper = wincred
@@ -45,13 +45,28 @@
 [core]
     autocrlf = false
     editor = vim    
-	pager = diff-so-fancy | less --tabs=4 -RFX
+    pager = delta --dark
+	; pager = diff-so-fancy | less --tabs=4 -RFX
 	excludesfile = /Users/lucas.teles/.gitignore_global
+
+[interactive]
+    diffFilter = delta --color-only --dark
+
+[delta]
+    features = side-by-side line-numbers decorations
+    whitespace-error-style = 22 reverse
+
+[delta "decorations"]
+    commit-decoration-style = bold yellow box ul
+    file-style = bold yellow ul
+    file-decoration-style = none
 
 [filter "lfs"]
 	smudge = git-lfs smudge --skip %f
 	process = git-lfs filter-process
 	required = true
 	clean = git-lfs clean -- %f
+[includeIf "gitdir:/Users/lucas.teles/dev/nu/"]
+	path = /Users/lucas.teles/.nugitconfig
 [url "git@github.com:"]
 	insteadOf = https://github.com/
