@@ -62,15 +62,15 @@ command! Decode64 execute '.!base64 -d'
 vnoremap // y/\V<C-R>=escape(@",'/\')<CR><CR>
 " Search for selected text, forwards or backwards.
 vnoremap <silent> * :<C-U>
-  \let old_reg=getreg('"')<Bar>let old_regtype=getregtype('"')<CR>
-  \gvy/<C-R>=&ic?'\c':'\C'<CR><C-R><C-R>=substitute(
-  \escape(@", '/\.*$^~['), '\_s\+', '\\_s\\+', 'g')<CR><CR>
-  \gVzv:call setreg('"', old_reg, old_regtype)<CR>
+      \let old_reg=getreg('"')<Bar>let old_regtype=getregtype('"')<CR>
+      \gvy/<C-R>=&ic?'\c':'\C'<CR><C-R><C-R>=substitute(
+      \escape(@", '/\.*$^~['), '\_s\+', '\\_s\\+', 'g')<CR><CR>
+      \gVzv:call setreg('"', old_reg, old_regtype)<CR>
 vnoremap <silent> # :<C-U>
-  \let old_reg=getreg('"')<Bar>let old_regtype=getregtype('"')<CR>
-  \gvy?<C-R>=&ic?'\c':'\C'<CR><C-R><C-R>=substitute(
-  \escape(@", '?\.*$^~['), '\_s\+', '\\_s\\+', 'g')<CR><CR>
-  \gVzv:call setreg('"', old_reg, old_regtype)<CR>
+      \let old_reg=getreg('"')<Bar>let old_regtype=getregtype('"')<CR>
+      \gvy?<C-R>=&ic?'\c':'\C'<CR><C-R><C-R>=substitute(
+      \escape(@", '?\.*$^~['), '\_s\+', '\\_s\\+', 'g')<CR><CR>
+      \gVzv:call setreg('"', old_reg, old_regtype)<CR>
 
 
 " Utilities
@@ -100,7 +100,7 @@ Plug 'Chiel92/vim-autoformat'
 Plug 'guns/vim-sexp'
 Plug 'tommcdo/vim-exchange' " exchange text with cx
 Plug 'kana/vim-textobj-user' " vim-textobj-entire
-Plug 'kana/vim-textobj-entire' "{motion}ae  entire buffer 
+Plug 'kana/vim-textobj-entire' "{motion}ae  entire buffer
 " Plug 'cohama/lexima.vim' "auto close parenthesis
 Plug 'junegunn/vim-easy-align' "Text alignment  j
 
@@ -142,8 +142,8 @@ Plug 'RyanMillerC/better-vim-tmux-resizer'
 Plug 'guns/vim-clojure-static'
 Plug 'Olical/conjure'
 Plug 'Olical/AnsiEsc'
-" Plug 'tpope/vim-fireplace'
-" Plug 'jrdoane/vim-clojure-highlight'
+Plug 'tpope/vim-fireplace'
+Plug 'jrdoane/vim-clojure-highlight'
 
 ".NET
 " Plug 'lucasteles/fsi.vim'
@@ -184,17 +184,20 @@ let g:rainbow_active = 1 "
 let lightcolors =  ['lightblue', 'lightyellow', 'red', 'darkgreen', 'darkyellow', 'lightred', 'yellow', 'cyan', 'magenta', 'white']
 let darkcolors =  ['blue', 'yellow', 'red', 'green', 'yellow', 'red',  'cyan', 'magenta', 'white']
 let g:rainbow_conf = {
-\   'ctermfgs': darkcolors
-\}
+      \   'ctermfgs': darkcolors
+      \}
 
 
 " Ag
 " :Ag  - Start fzf with hidden preview window that can be enabled with "?" key
 " :Ag! - Start fzf in fullscreen and display the preview window above
+"
+let $FZF_DEFAULT_OPTS = '--color hl:underline:reverse,hl+:underline:reverse'
 command! -bang -nargs=* Ag
-            \ call fzf#vim#grep(
-            \   'rg --column --line-number --no-heading --color=always --smart-case -- '.shellescape(<q-args>), 1,
-            \   fzf#vim#with_preview(), <bang>0)
+      \ call fzf#vim#grep(
+      \   'rg --column --line-number --no-heading --color=always --smart-case -- '.shellescape(<q-args>), 0,
+      \   fzf#vim#with_preview(), <bang>0)
+
 nnoremap <Leader>a :Ag<Space>
 nnoremap <Leader>ag :Ag <C-R><C-W><CR>
 vnoremap <Leader>ag y:Ag <C-r><C-r>"<CR>
@@ -204,8 +207,10 @@ vnoremap <Leader>ag y:Ag <C-r><C-r>"<CR>
 noremap <Leader><C-f> :Autoformat<CR>
 
 " CamelCaseMotion
-" call camelcasemotion#CreateMotionMappings('<leader>')
-
+map <silent> w <Plug>CamelCaseMotion_w
+map <silent> b <Plug>CamelCaseMotion_b
+map <silent> e <Plug>CamelCaseMotion_e
+map <silent> ge <Plug>CamelCaseMotion_ge
 
 "Tmux
 let g:tmux_navigator_no_mappings = 1
@@ -227,7 +232,7 @@ nnoremap <c-p> :Files<CR>
 " hide lastsatus (> fzf) on fzf
 autocmd! FileType fzf
 autocmd  FileType fzf set laststatus=0 noshowmode noruler
-            \| autocmd BufLeave <buffer> set laststatus=2 showmode ruler
+      \| autocmd BufLeave <buffer> set laststatus=2 showmode ruler
 
 
 " Ale
@@ -242,27 +247,27 @@ let g:ale_statusline_format = ['E:%s', 'W:%s', 'OK']
 " highlight ALEErrorSign ctermbg=NONE ctermfg=red
 " highlight ALEWarningSign ctermbg=NONE ctermfg=yellow
 
-let g:ale_linters = { 
-\ 'javascript': ['eslint'], 
-\ 'scss': ['stylelint'], 
-\ 'elm': ['elm-ls'],
-\ 'clojure': [],
-\ 'cpp': ['ccls']
-\ }
+let g:ale_linters = {
+      \ 'javascript': ['eslint'],
+      \ 'scss': ['stylelint'],
+      \ 'elm': ['elm-ls'],
+      \ 'clojure': [],
+      \ 'cpp': ['ccls']
+      \ }
 
-" \ 'cs': ['OmniSharp'], 
+" \ 'cs': ['OmniSharp'],
 
 let g:ale_fixers = {
-\   '*': ['remove_trailing_lines', 'trim_whitespace'],
-\   'javascript': ['eslint'],
-\   'scss': ['stylelint'],
-\   'haskell': ['hlint']
-\}
+      \   '*': ['remove_trailing_lines', 'trim_whitespace'],
+      \   'javascript': ['eslint'],
+      \   'scss': ['stylelint'],
+      \   'haskell': ['hlint']
+      \}
 let g:ale_cpp_ccls_init_options = {
-\   'cache': {
-\       'directory': '/tmp/ccls/cache'
-\   }
-\ }
+      \   'cache': {
+      \       'directory': '/tmp/ccls/cache'
+      \   }
+      \ }
 
 nnoremap <silent> <leader>gf :ALEDetail<cr>
 nnoremap <silent> <leader>gF :ALEFix<cr>
@@ -273,26 +278,26 @@ let g:goyo_width = 120
 let g:goyo_height = 95
 
 function! s:goyo_enter()
-    set wrap
-    set linebreak
-    hi NonText ctermfg=235
-    let b:quitting = 0
-    let b:quitting_bang = 0
-    autocmd QuitPre <buffer> let b:quitting = 1
-    cabbrev <buffer> q! let b:quitting_bang = 1 <bar> q!
+  set wrap
+  set linebreak
+  hi NonText ctermfg=235
+  let b:quitting = 0
+  let b:quitting_bang = 0
+  autocmd QuitPre <buffer> let b:quitting = 1
+  cabbrev <buffer> q! let b:quitting_bang = 1 <bar> q!
 endfunction
 
 function! s:goyo_leave()
-    set nowrap
-    set nolinebreak
-    " Quit Vim if this is the only remaining buffer
-    if b:quitting && len(filter(range(1, bufnr('$')), 'buflisted(v:val)')) == 1
-        if b:quitting_bang
-            qa!
-        else
-            qa
-        endif
+  set nowrap
+  set nolinebreak
+  " Quit Vim if this is the only remaining buffer
+  if b:quitting && len(filter(range(1, bufnr('$')), 'buflisted(v:val)')) == 1
+    if b:quitting_bang
+      qa!
+    else
+      qa
     endif
+  endif
 endfunction
 
 autocmd! User GoyoEnter nested call <SID>goyo_enter()
@@ -322,37 +327,37 @@ nmap <leader><leader>a :call coc#util#float_hide()<CR>
 
 " Use tab for trigger completion with characters ahead and navigate.
 inoremap <silent><expr> <TAB>
-            \ pumvisible() ? "\<C-n>" :
-            \ <SID>check_back_space() ? "\<TAB>" :
-            \ coc#refresh()
+      \ pumvisible() ? "\<C-n>" :
+      \ <SID>check_back_space() ? "\<TAB>" :
+      \ coc#refresh()
 inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
 
 function! s:check_back_space() abort
-    let col = col('.') - 1
-    return !col || getline('.')[col - 1]  =~# '\s'
+  let col = col('.') - 1
+  return !col || getline('.')[col - 1]  =~# '\s'
 endfunction
 
 " Use <c-space> to trigger completion.
 if has('nvim')
-    inoremap <silent><expr> <c-space> coc#refresh()
+  inoremap <silent><expr> <c-space> coc#refresh()
 else
-    inoremap <silent><expr> <c-@> coc#refresh()
+  inoremap <silent><expr> <c-@> coc#refresh()
 endif
 
 " Use <cr> to confirm completion, `<C-g>u` means break undo chain at current position.
 if exists('*complete_info')
-    inoremap <expr> <cr> complete_info()["selected"] != "-1" ? "\<C-y>" : "\<C-g>u\<CR>"
+  inoremap <expr> <cr> complete_info()["selected"] != "-1" ? "\<C-y>" : "\<C-g>u\<CR>"
 else
-    inoremap <expr> <cr> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
+  inoremap <expr> <cr> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
 endif
 
 " Show documentation on K
 function! s:show_documentation()
-    if (index(['vim','help'], &filetype) >= 0)
-        execute 'h '.expand('<cword>')
-    else
-        call CocAction('doHover')
-    endif
+  if (index(['vim','help'], &filetype) >= 0)
+    execute 'h '.expand('<cword>')
+  else
+    call CocAction('doHover')
+  endif
 endfunction
 nnoremap <silent> K :call <SID>show_documentation()<CR>
 
@@ -422,8 +427,10 @@ nnoremap <leader><TAB> :bn!<CR>
 nnoremap <leader>q :bp<cr>:bd #<cr>
 command! OnlyThis execute 'bufdo bp'
 
-autocmd BufEnter conjure-log-* AnsiEsc
+" autocmd BufEnter conjure-log-* AnsiEsc
 
+" entire
+nnoremap <leader><leader>d :norm dae<CR>
 
 " nnn
 " Disable default mappings
@@ -432,7 +439,7 @@ let g:nnn#set_default_mappings = 0
 " Start nnn in the current file's directory
 nnoremap <leader>m :NnnPicker %:p:h<CR>
 " Floating window (neovim latest and vim with patch 8.2.191)
-let g:nnn#layout = { 'window': { 'width': 0.9, 'height': 0.6, 'highlight': 'Debug' } }
+let g:nnn#layout = {   'window': { 'width': 0.9, 'height': 0.6, 'highlight': 'Debug' } }
 " Floating window (neovim latest and vim with patch 8.2.191)
 let g:nnn#layout = { 'window': { 'width': 0.9, 'height': 0.6, 'highlight': 'Debug' } }
 

@@ -187,4 +187,5 @@ java8
 
 
 export NNN_OPTS="H"
+ export BAT_THEME="TwoDark"
 
