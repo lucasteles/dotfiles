@@ -146,7 +146,7 @@ Plug 'melonmanchan/vim-tmux-resizer'
 Plug 'RyanMillerC/better-vim-tmux-resizer'
 
 "Clojure
-Plug 'guns/vim-clojure-static', {'for': 'clojure'}
+Plug 'lucasteles/vim-clojure-static', {'for': 'clojure' }
 Plug 'tpope/vim-fireplace', {'for': 'clojure'}
 Plug 'Olical/conjure'
 Plug 'bakpakin/fennel.vim'
