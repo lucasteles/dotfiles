@@ -10,6 +10,8 @@
   "suggest.removeDuplicateItems": true,
   "codeLens.enable": true,
   "diagnostic.displayByAle": true,
+  "coc.preferences.useQuickfixForLocations": false,
+  "coc.preferences.jumpCommand": "drop",
   "languageserver": {
 
     "clojure-lsp": {
@@ -20,7 +22,10 @@
       "additionalSchemes": ["zipfile", "jar"],
       "disableDiagnostics": false,
       "trace.server": "on",
-      "initializationOptions": {}
+      "initializationOptions": {
+        "source-paths": [ "src", "test" ],
+        "keep-require-at-start?": true
+      }
     },
 
     "haskell": {

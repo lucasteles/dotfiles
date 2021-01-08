@@ -83,7 +83,7 @@ vnoremap <silent> # :<C-U>
 " Utilities
 Plug 'junegunn/vim-plug'
 Plug 'w0rp/ale'
-Plug 'sheerun/vim-polyglot'
+" Plug 'sheerun/vim-polyglot'
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
 Plug 'jpalardy/vim-slime'
 Plug 'dhruvasagar/vim-zoom'
@@ -215,10 +215,10 @@ vnoremap <Leader>ag y:Ag <C-r><C-r>"<CR>
 noremap <Leader><C-f> :Autoformat<CR>
 
 " CamelCaseMotion
-map <silent> w <Plug>CamelCaseMotion_w
-map <silent> b <Plug>CamelCaseMotion_b
-map <silent> e <Plug>CamelCaseMotion_e
-map <silent> ge <Plug>CamelCaseMotion_ge
+" map <silent> w <Plug>CamelCaseMotion_w
+" map <silent> b <Plug>CamelCaseMotion_b
+" map <silent> e <Plug>CamelCaseMotion_e
+" map <silent> ge <Plug>CamelCaseMotion_ge
 
 "Tmux
 let g:tmux_navigator_no_mappings = 1
@@ -452,7 +452,7 @@ nmap ga <Plug>(EasyAlign)
 
 nnoremap <leader><leader><TAB> :bp!<CR>
 nnoremap <leader><TAB> :bn!<CR>
-nnoremap <leader>q :bp<cr>:bd #<cr>
+nnoremap <leader>q :bp<cr> :bd! #<cr>
 command! OnlyThis execute 'bufdo bp'
 
 ""ansi Esc
