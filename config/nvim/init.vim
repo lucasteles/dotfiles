@@ -452,8 +452,7 @@ nmap ga <Plug>(EasyAlign)
 
 nnoremap <leader><leader><TAB> :bp!<CR>
 nnoremap <leader><TAB> :bn!<CR>
-nnoremap <leader>q :bp<cr> :bd! #<cr>
-command! OnlyThis execute 'bufdo bp'
+nnoremap <leader>q :bp<cr>:bd #<cr>
 
 ""ansi Esc
 autocmd BufEnter conjure-log-* AnsiEsc
@@ -484,5 +483,4 @@ function! AirlineInit()
 endfunction
 autocmd VimEnter * call AirlineInit()
 
-
-autocmd BufRead *.clj try | silent! Require | catch /^Fireplace/ | endtry
+" autocmd BufRead *.clj try | silent! Require | catch /^Fireplace/ | endtry
