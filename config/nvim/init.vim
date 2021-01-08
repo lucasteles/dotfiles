@@ -58,6 +58,13 @@ call plug#begin('~/.vim/plugged')
 command! Encode64 execute '.!base64'
 command! Decode64 execute '.!base64 -d'
 
+" for json files, 2 spaces
+autocmd Filetype json setlocal ts=2 sw=2 sts=0 expandtab
+augroup json_base
+  au!
+  autocmd BufNewFile,BufRead *.json.base  set ft=json
+augroup END
+
 
 vnoremap // y/\V<C-R>=escape(@",'/\')<CR><CR>
 " Search for selected text, forwards or backwards.
@@ -80,10 +87,9 @@ Plug 'sheerun/vim-polyglot'
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
 Plug 'jpalardy/vim-slime'
 Plug 'dhruvasagar/vim-zoom'
-" Plug 'autozimu/LanguageClient-neovim', {'branch': 'next', 'do': './install.sh'}
 Plug 'junegunn/goyo.vim'                            " Distraction free mode
 Plug 'tpope/vim-repeat'
-Plug 'vim-test/vim-test'
+" Plug 'vim-test/vim-test'
 
 "Navigation
 Plug 'bkad/CamelCaseMotion'
@@ -94,19 +100,19 @@ Plug 'vim-scripts/BufOnly.vim'
 Plug 'vim-scripts/ReplaceWithRegister' "replace withot losing yank with gr
 Plug 'mg979/vim-visual-multi', {'branch': 'master'}
 Plug 'tpope/vim-commentary'
-Plug 'wellle/targets.vim'
+" Plug 'wellle/targets.vim'
 Plug 'tpope/vim-surround'
 Plug 'Chiel92/vim-autoformat'
 Plug 'guns/vim-sexp'
 Plug 'tommcdo/vim-exchange' " exchange text with cx
 Plug 'kana/vim-textobj-user' " vim-textobj-entire
 Plug 'kana/vim-textobj-entire' "{motion}ae  entire buffer
-" Plug 'cohama/lexima.vim' "auto close parenthesis
+"Plug 'cohama/lexima.vim' "auto close parenthesis
 Plug 'junegunn/vim-easy-align' "Text alignment  j
 
 "Git
 Plug 'tpope/vim-fugitive'
-" Plug 'airblade/vim-gitgutter'
+Plug 'airblade/vim-gitgutter'
 
 " Files
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
@@ -135,7 +141,7 @@ Plug 'plasticboy/vim-markdown'
 
 "Tmux
 Plug 'christoomey/vim-tmux-navigator'
-" Plug 'melonmanchan/vim-tmux-resizer'
+Plug 'melonmanchan/vim-tmux-resizer'
 Plug 'RyanMillerC/better-vim-tmux-resizer'
 
 "Clojure
@@ -151,15 +157,14 @@ Plug 'jrdoane/vim-clojure-highlight'
 " Plug 'puremourning/vimspector'
 
 "Flutter
-Plug 'dart-lang/dart-vim-plugin'
-Plug 'thosakwe/vim-flutter'
+" Plug 'dart-lang/dart-vim-plugin'
+" Plug 'thosakwe/vim-flutter'
 
 call plug#end()
 
 set termguicolors
 " colorscheme turtles
 colorscheme one
-let g:airline_theme='one'
 
 command! Vimrc :vs $MYVIMRC
 
@@ -174,9 +179,10 @@ let NERDTreeIgnore=['\.git$[[dir]]']
 
 
 " VIM Airline
+
+let g:airline_theme='one'
 let g:airline#extensions#tabline#enabled = 1
 set laststatus=2
-
 let g:airline_powerline_fonts = 1
 
 " Rainbow
@@ -303,7 +309,7 @@ endfunction
 autocmd! User GoyoEnter nested call <SID>goyo_enter()
 autocmd! User GoyoLeave nested call <SID>goyo_leave()
 
-nnoremap <leader><M-CR> :Goyo<CR>
+nnoremap <M-CR> :Goyo<CR>
 
 
 " Vim Markdown
@@ -313,6 +319,26 @@ let g:vim_markdown_folding_disabled = 1
 let g:conjure#mapping#doc_word = "K"
 let g:conjure#mapping#def_word = "gd"
 let g:conjure#client#clojure#nrepl#eval#auto_require = v:false
+
+" disable gd
+let g:conjure#mapping#def_word = v:false
+
+" disable K
+let g:conjure#mapping#doc_word = v:false
+
+" disable HUD
+" let g:conjure#log#hud#enabled = v:false
+
+
+" Plug 'tpope/vim-fireplace'
+nmap <localleader><localleader>rr :Require<cr>
+nmap <localleader><localleader>ee :Eval<cr>
+nmap <localleader><localleader>tn :RunTests<cr>
+
+augroup clojure
+  au Syntax clojure nmap <buffer> gd <Plug>FireplaceDjump
+augroup END
+
 
 " COC.Nvim
 "
@@ -439,7 +465,16 @@ let g:nnn#set_default_mappings = 0
 " Start nnn in the current file's directory
 nnoremap <leader>m :NnnPicker %:p:h<CR>
 " Floating window (neovim latest and vim with patch 8.2.191)
-let g:nnn#layout = {   'window': { 'width': 0.9, 'height': 0.6, 'highlight': 'Debug' } }
-" Floating window (neovim latest and vim with patch 8.2.191)
 let g:nnn#layout = { 'window': { 'width': 0.9, 'height': 0.6, 'highlight': 'Debug' } }
+
+
+" vim zoom 
+" set statusline+=%{zoom#statusline()}
+nmap <C-W>z <Plug>(zoom-toggle)
+function! AirlineInit()
+  call g:airline#parts#define_raw('zoom', '%{zoom#statusline()}')
+  let g:airline_section_y = airline#section#create_right(['ffenc', 'zoom'])
+endfunction
+autocmd VimEnter * call AirlineInit()
+
 
