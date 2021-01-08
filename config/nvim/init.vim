@@ -148,10 +148,10 @@ Plug 'RyanMillerC/better-vim-tmux-resizer'
 "Clojure
 Plug 'lucasteles/vim-clojure-static', {'for': 'clojure' }
 Plug 'tpope/vim-fireplace', {'for': 'clojure'}
-Plug 'Olical/conjure'
 Plug 'bakpakin/fennel.vim'
 Plug 'jrdoane/vim-clojure-highlight'
 Plug 'Olical/AnsiEsc'
+Plug 'Olical/conjure'
 
 ".NET
 " Plug 'lucasteles/fsi.vim'
@@ -323,7 +323,7 @@ let g:conjure#mapping#def_word = "gd"
 let g:conjure#client#clojure#nrepl#eval#auto_require = v:false
 
 " disable gd
-let g:conjure#mapping#def_word = v:false
+" let g:conjure#mapping#def_word = v:
 
 " disable K
 let g:conjure#mapping#doc_word = v:false
@@ -338,7 +338,7 @@ nmap <localleader><localleader>ee :Eval<cr>
 nmap <localleader><localleader>tn :RunTests<cr>
 
 augroup clojure
-  au Syntax clojure nmap <buffer> gd <Plug>FireplaceDjump
+  au Syntax clojure nmap <buffer> gD <Plug>FireplaceDjump
 augroup END
 
 
@@ -456,13 +456,16 @@ nnoremap <leader>q :bp<cr>:bd #<cr>
 
 ""ansi Esc
 autocmd BufEnter conjure-log-* AnsiEsc
-augroup AnsiEscQuickFix
-    autocmd!
-    autocmd FileType qf silent! :AnsiEsc
-augroup END
+" augroup AnsiEscQuickFix
+"     autocmd!
+"     autocmd FileType qf silent! :AnsiEsc
+" augroup END
+
+
+autocmd BufEnter,BufNew,BufRead conjure-log-*  set ft=clojure
 
 " entire
-nnoremap <leader><leader>d :norm dae<CR>
+nnoremap <leader><leader>d :norm ggdG<CR>
 
 " nnn
 " Disable default mappings
