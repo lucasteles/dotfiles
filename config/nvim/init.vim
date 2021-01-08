@@ -138,6 +138,7 @@ Plug 'machakann/vim-highlightedyank'
 Plug 'mattn/emmet-vim'
 Plug 'pangloss/vim-javascript'
 Plug 'plasticboy/vim-markdown'
+Plug 'mxw/vim-jsx'
 
 "Tmux
 Plug 'christoomey/vim-tmux-navigator'
@@ -145,11 +146,12 @@ Plug 'melonmanchan/vim-tmux-resizer'
 Plug 'RyanMillerC/better-vim-tmux-resizer'
 
 "Clojure
-Plug 'guns/vim-clojure-static'
+Plug 'guns/vim-clojure-static', {'for': 'clojure'}
+Plug 'tpope/vim-fireplace', {'for': 'clojure'}
 Plug 'Olical/conjure'
-Plug 'Olical/AnsiEsc'
-Plug 'tpope/vim-fireplace'
+Plug 'bakpakin/fennel.vim'
 Plug 'jrdoane/vim-clojure-highlight'
+Plug 'Olical/AnsiEsc'
 
 ".NET
 " Plug 'lucasteles/fsi.vim'
@@ -453,7 +455,12 @@ nnoremap <leader><TAB> :bn!<CR>
 nnoremap <leader>q :bp<cr>:bd #<cr>
 command! OnlyThis execute 'bufdo bp'
 
-" autocmd BufEnter conjure-log-* AnsiEsc
+""ansi Esc
+autocmd BufEnter conjure-log-* AnsiEsc
+augroup AnsiEscQuickFix
+    autocmd!
+    autocmd FileType qf silent! :AnsiEsc
+augroup END
 
 " entire
 nnoremap <leader><leader>d :norm dae<CR>
@@ -478,3 +485,4 @@ endfunction
 autocmd VimEnter * call AirlineInit()
 
 
+autocmd BufRead *.clj try | silent! Require | catch /^Fireplace/ | endtry
