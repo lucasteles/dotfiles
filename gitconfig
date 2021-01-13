@@ -44,7 +44,7 @@
 
 [core]
     autocrlf = false
-    editor = vim    
+	editor = vim
     pager = delta --dark
 	; pager = diff-so-fancy | less --tabs=4 -RFX
 	excludesfile = /Users/lucas.teles/.gitignore_global
@@ -53,7 +53,7 @@
     diffFilter = delta --color-only --dark
 
 [delta]
-    features = side-by-side line-numbers decorations
+    features =  line-numbers decorations
     whitespace-error-style = 22 reverse
 
 [delta "decorations"]

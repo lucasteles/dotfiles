@@ -131,3 +131,11 @@ colors:
     cyan:       '#56b6c2'
     white:      '#828997' # mono-2
 
+bell:
+  animation: EaseOutExpo
+  duration: 0
+  color: "0x9400D3"
+  command: 
+    program: afplay  
+    args: ["/System/Library/Sounds/Basso.aiff"]
+

@@ -147,9 +147,9 @@ Plug 'RyanMillerC/better-vim-tmux-resizer'
 
 "Clojure
 Plug 'lucasteles/vim-clojure-static', {'for': 'clojure' }
-Plug 'tpope/vim-fireplace', {'for': 'clojure'}
+" Plug 'tpope/vim-fireplace', {'for': 'clojure'}
 Plug 'bakpakin/fennel.vim'
-Plug 'jrdoane/vim-clojure-highlight'
+" Plug 'jrdoane/vim-clojure-highlight'
 Plug 'Olical/AnsiEsc'
 Plug 'Olical/conjure'
 
@@ -326,7 +326,7 @@ let g:conjure#client#clojure#nrepl#eval#auto_require = v:false
 " let g:conjure#mapping#def_word = v:
 
 " disable K
-let g:conjure#mapping#doc_word = v:false
+"let g:conjure#mapping#doc_word = v:false
 
 " disable HUD
 " let g:conjure#log#hud#enabled = v:false
@@ -339,7 +339,7 @@ nmap <localleader><localleader>tn :RunTests<cr>
 
 augroup clojure
   au Syntax clojure nmap <buffer> gD <Plug>FireplaceDjump
-augroup END
+    augroup END
 
 
 " COC.Nvim

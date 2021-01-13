@@ -1,0 +1,34 @@
+[
+  {
+    "name": "mssqlcli",
+    "properties": {
+      "Reserved.ChannelUsed": "aivortex",
+      "Reserved.SequenceNumber": 1,
+      "Reserved.EventId": "f1256aa8-a874-4e90-af39-00eac530dd3f",
+      "Reserved.SessionId": "af0f4fbc-2038-4afe-a239-354e0339c921",
+      "Reserved.TimeSinceSessionStart": 0,
+      "Reserved.DataModel.Source": "DataModelAPI",
+      "Reserved.DataModel.EntitySchemaVersion": 4,
+      "Reserved.DataModel.Severity": 0,
+      "Reserved.DataModel.CorrelationId": "ddff3113-0572-44ce-b1e8-f14d6a2f9363",
+      "Context.Default.SQLTools.ExeName": "mssqlcli",
+      "Context.Default.SQLTools.ExeVersion": "1.0.0",
+      "Context.Default.SQLTools.OS.Type": "darwin",
+      "Context.Default.SQLTools.OS.Version": "19.6.0",
+      "Context.Default.SQLTools.IsDocker": false,
+      "Context.Default.SQLTools.User.Id": "dc2a73809d81b25fc83a7fe093c95c765279c49c68b7a77184359d62e860faa6",
+      "Context.Default.SQLTools.User.IsMicrosoftInternal": "False",
+      "Context.Default.SQLTools.User.IsOptedIn": "True",
+      "Context.Default.SQLTools.ShellType": "/bin/zsh",
+      "Context.Default.SQLTools.EnvironmentVariables": "[]",
+      "Context.Default.SQLTools.Locale": "en_US,UTF-8",
+      "Context.Default.SQLTools.StartTime": "2021-01-11 15:48:52.199867",
+      "Context.Default.SQLTools.EndTime": "2021-01-11 15:49:42.416668",
+      "Context.Default.SQLTools.SessionDuration": "50.216801",
+      "Context.Default.SQLTools.PythonVersion": "3.7.6",
+      "Context.Default.SQLTools.ServerVersion": "15.0.4073.23",
+      "Context.Default.SQLTools.ServerEdition": "Developer Edition (64-bit)",
+      "Context.Default.SQLTools.ConnectionType": "Standalone"
+    }
+  }
+]

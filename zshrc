@@ -122,7 +122,8 @@ autoload compinit -Uz && compinit
 source "$NU_HOME/nucli/nu.bashcompletion"
 export CDPATH=~/dev/nu
 
-export EDITOR='nvim'
+export EDITOR=vim
+export GIT_EDITOR=vim
 
 alias vim="nvim"
 alias vi="nvim"
@@ -187,5 +188,5 @@ java8
 
 
 export NNN_OPTS="H"
- export BAT_THEME="TwoDark"
-
+export BAT_THEME="TwoDark"
+export LESS=-RS
