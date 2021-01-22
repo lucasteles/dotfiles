@@ -39,7 +39,7 @@
     bgone = !git branch -vv | grep ': gone]' | awk '{print $1}'
     send = "!g() { git add -A && git commit  -m \"$*\" && "git push origin $(git rev-parse --abbrev-ref HEAD)"; }; g"
     next = "!n() { git hard-reset && git log --reverse --pretty=%H master | grep -A 1 $(git rev-parse HEAD) | tail -n1 | xargs git checkout; }; n"
-    prev = "!p() { git hard-reset && git checkout HEAD^1; }; p"
+    prev = "!p() { git stash && git checkout HEAD^1; }; p"
 
 
 [core]
