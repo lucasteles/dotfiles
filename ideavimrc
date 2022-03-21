@@ -1,0 +1,52 @@
+set clipboard+=unnamed
+
+" let mapleader = "\<space>" " Use space as leader key
+" let maplocalleader = "," " Use , as local leader key
+
+nnoremap <Leader>s :%s/\<<C-r><C-w>\>/
+nnoremap <Leader>a :noh<CR>
+nnoremap <Leader>c *Nciw
+nnoremap <Leader>f :/\%<c-r>=line('.')<cr>l
+
+nnoremap <CR> o<ESC>
+nnoremap <C-CR> O<ESC>
+
+vnoremap <Leader>c "hy:%s/<C-r>h//g<left><left>
+vnoremap <Leader>s "hy:/<C-r>h<CR>
+
+" IdeaVim plugins
+set surround
+set commentary
+set hls
+set ReplaceWithRegister
+set rnu
+set nu
+set ignorecase
+set visualbell
+set noerrorbells
+" paste maps
+nmap <Leader>p gr
+nmap <Leader>pp grr
+xmap <Leader>p gr
+
+" GoTo Impementation
+nnoremap gD :action GotoImplementation<CR>
+nnoremap gR :action FindUsages<CR>
+nnoremap gr :action ShowUsages<CR>
+nnoremap <space>n :action ActivateProjectToolWindow<CR>
+nnoremap <space><tab> :action NextTab<CR>
+nnoremap <space><space><tab> :action PreviousTab<CR>
+nnoremap <space>q :q<CR>
+nnoremap ,eb :action :cursive.repl.actions/load-file<CR>
+nnoremap ,el :action :cursive.repl.actions/run-last-sexp<CR>
+nnoremap ,ee :action :cursive.repl.actions/run-top-sexp<CR>
+nnoremap ,tt :action :cursive.testing.actions/run-single-test<CR>
+nnoremap ,tn :action :cursive.testing.actions/run-ns-tests<CR>
+nnoremap ,tr :action :cursive.testing.actions/rerun-last-test<CR>
+nnoremap ,tf :action :cursive.testing.actions/rerun-failed-tests<CR>
+
+nnoremap <space>mse :action :cursive.repl.actions/run-last-sexp<CR>
+
+
+command! TabOnly action CloseAllEditorsButActive
+

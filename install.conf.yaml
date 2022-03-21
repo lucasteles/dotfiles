@@ -4,5 +4,11 @@
     ~/.gitconfig: gitconfig
     ~/.tmux.conf: tmux.conf
     ~/.zshrc: zshrc
+    ~/.ideavimrc: ideavimrc
+    ~/.config/nvim/:
+          create: true
+          glob: true
+          path: config/nvim/*
+          relink: true
 
 
