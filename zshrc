@@ -1,4 +1,7 @@
-[ -z "$TMUX"  ] && { tmux attach || exec tmux new-session && exit;}
+export PATH=/home/lucasteles/.asdf/installs/rust/1.59.0/bin:$PATH
+export CDPATH=~/dev:~/dev/a55
+
+[[ "$(ps -o command $$ | tail -n 1)" != *"vscode"* ]] && [ -z "$TMUX"  ] && { tmux attach || exec tmux new-session && exit;}
 
 eval "$(ssh-agent -s)" > /dev/null 2>&1  
 ssh-add ~/.ssh/id_ed25519_ssh > /dev/null 2>&1  
@@ -10,13 +13,6 @@ ssh-add ~/.ssh/id_ed25519_ssh > /dev/null 2>&1
 if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
   source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
 fi
- 
-#fpath+=$HOME/.zsh/typewritten
-#TYPEWRITTEN_PROMPT_LAYOUT="half_pure"
-#TYPEWRITTEN_RIGHT_PROMPT_PREFIX=" "
-#TYPEWRITTEN_SYMBOL="❯"
-#autoload -U promptinit; promptinit
-#prompt typewritten
 
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
@@ -54,6 +50,7 @@ alias dux="\du"
 alias g="lazygit"
 alias stats="tokei"
 alias ps="procs"
+alias loc="tokei"
 alias psx="\ps"
 alias a='fasd -a'        # any
 alias s='fasd -si'       # show / search / select
@@ -66,7 +63,6 @@ alias zz='fasd_cd -d -i' # cd with interactive selection
 alias refresh="source ~/.zshrc"
 alias zshrc="vim ~/.zshrc"
 alias lvim="/home/lucasteles/.local/bin/lvim"
-export CDPATH=~/dev:~/dev/a55
 
 bindkey "^[[A" history-beginning-search-backward
 bindkey "^[[B" history-beginning-search-forward
@@ -83,7 +79,8 @@ source /opt/asdf-vm/asdf.sh
 eval $(thefuck --alias)
 eval $(thefuck --alias oops)
 source /usr/share/zsh/plugins/zsh-vi-mode/zsh-vi-mode.plugin.zsh 
- 
+eval "$(fasd --init auto)"
+
 autoload -Uz compinit
 compinit
 zstyle ':completion:*' menu select
@@ -97,7 +94,6 @@ bindkey "^[[B" down-line-or-beginning-search
 
 bindkey -v
 
-export PATH=/home/lucasteles/.asdf/installs/rust/1.59.0/bin:$PATH
 
 takedir () {
         mkdir -p $@ && cd ${@:$#}
