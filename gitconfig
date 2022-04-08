@@ -3,8 +3,8 @@
 	name = "Lucas Teles"
 	email = lucas.teles@outlook.com
 
-[credential]
-     helper = wincred
+; [credential]
+;      helper = wincred
 
 [alias]
     lg = !"git lg1"
@@ -67,7 +67,7 @@
 	process = git-lfs filter-process
 	required = true
 
-; [gpg]
-;     program = gpg2
+[gpg]
+     program = gpg
 [commit]
     gpgsign = true
