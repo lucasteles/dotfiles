@@ -4,6 +4,7 @@ export GPG_TTY=$(tty)
 
 #echo "$(ps -o command $$ | tail -n 10)" >> ~/log.txt
 #[[ "$(ps -o command $$ | tail -n 1)" != *"environ"* ]] && [[ "$(ps -o command $$ | tail -n 6)" != *"vscode"* ]] && [ -z "$TMUX"  ] && { tmux attach || exec tmux new-session && exit;}
+#[ -z "$TMUX"  ] && { tmux attach || exec tmux new-session && exit;}
 
 eval "$(ssh-agent -s)" > /dev/null 2>&1  
 ssh-add ~/.ssh/id_ed25519_ssh > /dev/null 2>&1  
