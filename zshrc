@@ -1,7 +1,9 @@
 export PATH=/home/lucasteles/.asdf/installs/rust/1.59.0/bin:$PATH
 export CDPATH=~/dev:~/dev/a55
+export GPG_TTY=$(tty)
 
-[[ "$(ps -o command $$ | tail -n 1)" != *"vscode"* ]] && [ -z "$TMUX"  ] && { tmux attach || exec tmux new-session && exit;}
+#echo "$(ps -o command $$ | tail -n 10)" >> ~/log.txt
+#[[ "$(ps -o command $$ | tail -n 1)" != *"environ"* ]] && [[ "$(ps -o command $$ | tail -n 6)" != *"vscode"* ]] && [ -z "$TMUX"  ] && { tmux attach || exec tmux new-session && exit;}
 
 eval "$(ssh-agent -s)" > /dev/null 2>&1  
 ssh-add ~/.ssh/id_ed25519_ssh > /dev/null 2>&1  
@@ -137,3 +139,5 @@ function vi-yank-xclip {
 zle -N vi-yank-xclip
 bindkey -M vicmd 'y' vi-yank-xclip
 
+
+export PATH="$HOME/.poetry/bin:$PATH"

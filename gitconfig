@@ -2,6 +2,7 @@
 [user]
 	name = "Lucas Teles"
 	email = lucas.teles@outlook.com
+	signingkey = 4AAAB7AE
 
 ; [credential]
 ;      helper = wincred
