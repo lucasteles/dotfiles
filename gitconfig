@@ -20,9 +20,9 @@
     filesIn = diff-tree --no-commit-id --name-only -r 
     breset = "!git checkout master && git branch | grep -v -e master | xargs -n1 git branch -D"
     st = status
-    ci = commit  
+    ci = commit -m
     cm = !git add -A && git commit  -m
-	save = !git add -A && git commit -m 'SAVEPOINT'   
+    save = !git add -A && git commit --no-gpg-sign --no-verify -m 'SAVEPOINT'   
     hard-reset = !git save && git reset --hard HEAD~1 && git clean -fd
     co = checkout
     ce = config --global -e
@@ -32,7 +32,10 @@
     un = !GIT_CURRENT_BRANCH=$(git rev-parse --abbrev-ref HEAD) && git log origin/$GIT_CURRENT_BRANCH..
     pend = !GIT_CURRENT_BRANCH=$(git rev-parse --abbrev-ref HEAD) && git log ..origin/$GIT_CURRENT_BRANCH
     wip = !git add -A && git commit  -m "WIP"
-    wipe = !git add -A && git commit  -qm 'WIPE SAVEPOINT' && git reset HEAD~1 --hard
+    wipush = "!git wip; git push"
+    force-wip = !git wip --no-verify --no-gpg-sign 
+    force-wipush = "!git force-wip; git push"
+    wipe = !git add -A && git commit --no-verify - -qm 'WIPE SAVEPOINT' && git reset HEAD~1 --hard
     bclean = "!f() { git branch --merged ${1-master} | grep -v " ${1-master}$" | xargs -r git branch -d; }; f"
     bl = show-branch --list
     fap = fetch --all --prune
@@ -72,3 +75,5 @@
      program = gpg2
 [commit]
     gpgsign = true
+[pull]
+	rebase = false

@@ -84,10 +84,11 @@ function M.setup()
       { name = "emoji" },
       { name = "calc" },
     },
+    window =  {
     documentation = {
       border = { "╭", "─", "╮", "│", "╯", "─", "╰", "│" },
       winhighlight = "NormalFloat:NormalFloat,FloatBorder:TelescopeBorder",
-    },
+    }},
   }
 
   -- Use buffer source for `/`

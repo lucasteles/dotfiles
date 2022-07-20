@@ -66,6 +66,9 @@ alias zz='fasd_cd -d -i' # cd with interactive selection
 alias refresh="source ~/.zshrc"
 alias zshrc="vim ~/.zshrc"
 alias lvim="/home/lucasteles/.local/bin/lvim"
+alias compose-reset='docker compose ls --format=json | jq ".[].ConfigFiles" --raw-output | tr -d "\n" |  xargs -d "," -I "compose_file"  docker-compose -f "compose_file" down --remove-orphans'
+alias docker-up-rm="docker-compose rm -fsv; docker-compose up && docker-compose rm -fsv"
+alias docker-force-reset="compose-reset; docker rm -f $(docker ps -q -a); docker system prune -fa"
 
 bindkey "^[[A" history-beginning-search-backward
 bindkey "^[[B" history-beginning-search-forward
@@ -139,6 +142,7 @@ function vi-yank-xclip {
 }
 zle -N vi-yank-xclip
 bindkey -M vicmd 'y' vi-yank-xclip
+
 
 
 export PATH="$HOME/.poetry/bin:$PATH"

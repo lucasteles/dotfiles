@@ -49,7 +49,7 @@ function M.setup()
      use 'junegunn/vim-easy-align' --Text alignment  j
    
     -- Themes / VIsual
-    use 'arcticicestudio/nord-vim'
+    -- use 'arcticicestudio/nord-vim'
     use 'rakr/vim-one'
     use 'joshdick/onedark.vim'
    

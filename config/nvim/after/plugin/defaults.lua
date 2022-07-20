@@ -4,6 +4,7 @@ local opt = vim.opt
 
 -- Remap leader and local leader to <Space>
 api.nvim_set_keymap("", "<Space>", "<Nop>", { noremap = true, silent = true })
+
 g.mapleader = " "
 g.maplocalleader = ","
 
@@ -22,7 +23,6 @@ opt.signcolumn = "yes" -- Always show sign column
 opt.clipboard = "unnamed,unnamedplus" -- Access system clipboard
 opt.showcmd = true
 opt.wildmenu = true
-opt.expandtab = true
 opt.spelllang="pt_br,en"
 opt.timeoutlen = 300
 opt.path:remove "/usr/include"
@@ -30,6 +30,13 @@ opt.path:append "**"
 opt.wildignorecase = true
 opt.wildignore:append "**/node_modules/*"
 opt.wildignore:append "**/.git/*"
+
+-- tab config
+opt.tabstop=4
+opt.shiftwidth=4
+opt.softtabstop=0
+opt.expandtab=true
+opt.smarttab=true
 
 vim.cmd [[
 let g:clipboard = {
@@ -63,4 +70,4 @@ vim.cmd [[
   augroup END
 ]]
 
-vim.cmd "colorscheme onedarker"
+vim.cmd "colorscheme onedark"
