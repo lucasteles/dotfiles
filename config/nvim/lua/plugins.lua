@@ -280,7 +280,10 @@ function M.setup()
        wants = "nvim-treesitter",
        event = "InsertEnter",
      }
-
+    use {
+        'glacambre/firenvim',
+        run = function() vim.fn['firenvim#install'](0) end 
+    }
 
     -- LSP
      use {'neovim/nvim-lspconfig', 'williamboman/nvim-lsp-installer'}
