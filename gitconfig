@@ -37,6 +37,9 @@
     force-wipush = "!git force-wip; git push"
     wipe = !git add -A && git commit --no-verify - -qm 'WIPE SAVEPOINT' && git reset HEAD~1 --hard
     bclean = "!f() { git branch --merged ${1-master} | grep -v " ${1-master}$" | xargs -r git branch -d; }; f"
+    squash-master = git reset $(git merge-base master $(git rev-parse --abbrev-ref HEAD)) && git cm 
+    squash-main = git reset $(git merge-base main $(git rev-parse --abbrev-ref HEAD)) && git cm 
+    squash = git rebase -i
     bl = show-branch --list
     fap = fetch --all --prune
     fapull = !git fetch --all --prune && git merge FETCH_HEAD
