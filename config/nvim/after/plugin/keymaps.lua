@@ -10,24 +10,25 @@ vim.cmd [[
 	vnoremap <M-u> :m '>+1<CR>gv=gv
 	nnoremap <CR> o<ESC>
 	nnoremap <C-CR> O<ESC>
-  nnoremap <leader><leader><TAB> :bp!<CR>
-  nnoremap <leader><TAB> :bn!<CR>
+	nnoremap <leader><leader><TAB> :bp!<CR>
+	nnoremap <leader>n :NvimTreeToggle<CR>
+	nnoremap <leader><TAB> :bn!<CR>
 	nnoremap <Leader>s :%s/\<<C-r><C-w>\>/
-  nnoremap <Leader>p :Telescope buffers<CR>
-  nnoremap <c-p> :lua require('utils.finder').find_files()<CR>
+	nnoremap <c-b> :Telescope buffers<CR>
+	nnoremap <c-p> :lua require('utils.finder').find_files()<CR>
 	nnoremap <Leader>c *Nciw
 	nnoremap <Leader>a :noh<CR>
 
-  let g:tmux_navigator_no_mappings = 1
-  nnoremap <silent> <C-h> :TmuxNavigateLeft<cr>
-  nnoremap <silent> <C-j> :TmuxNavigateDown<cr>
-  nnoremap <silent> <C-k> :TmuxNavigateUp<cr>
-  nnoremap <silent> <C-l> :TmuxNavigateRight<cr>
+	let g:tmux_navigator_no_mappings = 1
+	nnoremap <silent> <C-h> :TmuxNavigateLeft<cr>
+	nnoremap <silent> <C-j> :TmuxNavigateDown<cr>
+	nnoremap <silent> <C-k> :TmuxNavigateUp<cr>
+	nnoremap <silent> <C-l> :TmuxNavigateRight<cr>
 
-  let g:tmux_resizer_no_mappings = 1
-  nnoremap <silent> <C-M-h> :TmuxResizeLeft<cr>
-  nnoremap <silent> <C-M-j> :TmuxResizeDown<cr>
-  nnoremap <silent> <C-M-k> :TmuxResizeUp<cr>
+	let g:tmux_resizer_no_mappings = 1
+	nnoremap <silent> <C-M-h> :TmuxResizeLeft<cr>
+	nnoremap <silent> <C-M-j> :TmuxResizeDown<cr>
+	nnoremap <silent> <C-M-k> :TmuxResizeUp<cr>
 
 	command! Encode64 execute '.!base64'
 	command! Decode64 execute '.!base64 -d'
@@ -62,14 +63,3 @@ keymap("n", "<ESC>", ":nohlsearch<Bar>:echo<CR>", default_opts)
 -- Move selected line / block of text in visual mode
 keymap("x", "K", ":move '<-2<CR>gv-gv", default_opts)
 keymap("x", "J", ":move '>+1<CR>gv-gv", default_opts)
-
-
--- -- place this in one of your configuration file(s)
--- keymap('n', 'f', "<cmd>lua require'hop'.hint_char1({ direction = require'hop.hint'.HintDirection.AFTER_CURSOR, current_line_only = true })<cr>", {})
--- keymap('n', 'F', "<cmd>lua require'hop'.hint_char1({ direction = require'hop.hint'.HintDirection.BEFORE_CURSOR, current_line_only = true })<cr>", {})
--- keymap('o', 'f', "<cmd>lua require'hop'.hint_char1({ direction = require'hop.hint'.HintDirection.AFTER_CURSOR, current_line_only = true, inclusive_jump = true })<cr>", {})
--- keymap('o', 'F', "<cmd>lua require'hop'.hint_char1({ direction = require'hop.hint'.HintDirection.BEFORE_CURSOR, current_line_only = true, inclusive_jump = true })<cr>", {})
--- keymap('', 't', "<cmd>lua require'hop'.hint_char1({ direction = require'hop.hint'.HintDirection.AFTER_CURSOR, current_line_only = true })<cr>", {})
--- keymap('', 'T', "<cmd>lua require'hop'.hint_char1({ direction = require'hop.hint'.HintDirection.BEFORE_CURSOR, current_line_only = true })<cr>", {})
-
-

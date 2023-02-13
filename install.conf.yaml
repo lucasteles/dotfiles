@@ -5,6 +5,7 @@
     ~/.tmux.conf: tmux.conf
     ~/.zshrc: zshrc
     ~/.ideavimrc: ideavimrc
+    ~/.clojure: clojure
     ~/.config/nvim/:
           create: true
           glob: true

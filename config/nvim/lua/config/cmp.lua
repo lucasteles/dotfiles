@@ -22,6 +22,7 @@ function M.setup()
         vim_item.menu = ({
           buffer = "[Buffer]",
           luasnip = "[Snip]",
+          conjure = "[Conjure]",
           nvim_lua = "[Lua]",
           treesitter = "[Treesitter]",
         })[entry.source.name]
@@ -77,6 +78,7 @@ function M.setup()
     sources = {
       { name = "treesitter" },
       { name = "buffer" },
+      { name = "conjure" },
       { name = "luasnip" },
       { name = "nvim_lua" },
       { name = "path" },
@@ -109,8 +111,8 @@ function M.setup()
 
 
   -- Auto pairs
-  local cmp_autopairs = require "nvim-autopairs.completion.cmp"
-  cmp.event:on("confirm_done", cmp_autopairs.on_confirm_done { map_char = { tex = "" } })
+  -- local cmp_autopairs = require "nvim-autopairs.completion.cmp"
+  -- cmp.event:on("confirm_done", cmp_autopairs.on_confirm_done { map_char = { tex = "" } })
 
 end
 
