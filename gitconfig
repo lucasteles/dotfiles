@@ -46,7 +46,8 @@
 
 
 [core]
-    autocrlf = true
+    autocrlf = false
+    eol = lf
 	editor = vim
     pager = delta --dark
 
