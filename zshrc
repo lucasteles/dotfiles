@@ -1,5 +1,4 @@
-export PATH=/home/lucasteles/.asdf/installs/rust/1.59.0/bin:$PATH
-export CDPATH=~/dev:~/dev/a55
+export CDPATH=~/dev
 export GPG_TTY=$(tty)
 export WINDOWS_HOST=`grep -m 1 nameserver /etc/resolv.conf | awk '{print$2}'`
 
@@ -37,6 +36,7 @@ export FZF_CTRL_T_OPTS="--preview '(highlight -O ansi -l {} 2> /dev/null || cat 
 
 alias vim="nvim"
 alias vi="nvim"
+alias timed="hyperfine"
 alias cls="clear"
 alias catx="\cat"
 alias cat="bat"
@@ -144,7 +144,6 @@ function vi-yank-xclip {
 zle -N vi-yank-xclip
 bindkey -M vicmd 'y' vi-yank-xclip
 
-
-
 export PATH="$HOME/.poetry/bin:$PATH"
-# [ -f "/home/lucasteles/.ghcup/env" ] && source "/home/lucasteles/.ghcup/env" # ghcup-env
+export PATH="$HOME/.asdf/installs/rust/1.59.0/bin:$PATH"
+export PATH="$HOME/.local/bin:$PATH"
