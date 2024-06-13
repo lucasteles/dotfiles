@@ -58,17 +58,15 @@ function M.setup()
         { action = "Telescope oldfiles", desc = " Recent files", icon = " ", key = "r", key_format = ' %s'  },
         { action = "Telescope live_grep",desc = " Find text",icon = " ", key = "g", key_format = ' %s'  },
         { action = 'e ~/.config/nvim/after/plugin/defaults.lua <CR>', desc = " Configuration", icon = " ", key = "c", key_format = ' %s' },
-        { action = 'e ~/.config/nvim/plugins.lua <CR>', desc = " Plugins", icon = " ", key = "p", key_format = ' %s' },
+        { action = 'Lazy', desc = " Plugins", icon = " ", key = "p", key_format = ' %s' },
         { action = function() vim.api.nvim_input("<cmd>qa<cr>") end, desc = " Quit", icon = " ", key = "q",  key_format = ' %s' },
       },
       footer = function()
-        local total_plugins = #vim.tbl_keys(packer_plugins)
-        local datetime = os.date "%d-%m-%Y  %H:%M:%S"
-        return { "⚡ Neovim loaded - " .. total_plugins .. " plugins - 󰃭 " .. datetime }
+        local stats = require("lazy").stats()
+        local ms = (math.floor(stats.startuptime * 100 + 0.5) / 100)
+        local datetime = os.date "󰃭 %d-%m-%Y  %H:%M:%S - "
+        return { "⚡ Neovim loaded - " .. datetime .. stats.loaded .. "/" .. stats.count .. " plugins in " .. ms .. "ms" }
 
-        -- local stats = require("lazy").stats()
-        -- local ms = (math.floor(stats.startuptime * 100 + 0.5) / 100)
-        -- return { "⚡ Neovim loaded " .. stats.loaded .. "/" .. stats.count .. " plugins in " .. ms .. "ms" }
       end,
     },
   }
