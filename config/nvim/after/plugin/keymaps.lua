@@ -13,7 +13,10 @@ vim.cmd [[
 	nnoremap <leader><leader><TAB> :bp!<CR>
 	nnoremap <leader>n :NvimTreeToggle<CR>
 	nnoremap <leader><TAB> :bn!<CR>
-	nnoremap <Leader>s :%s/\<<C-r><C-w>\>/
+	nnoremap <leader>q :bd<CR>
+	nnoremap <leader>Q :bd!<CR>
+	nnoremap <leader>s :w<CR>
+	nnoremap <Leader>r :%s/\<<C-r><C-w>\>/
 	nnoremap <Leader><C-p> :Telescope buffers<CR>
 	nnoremap <C-p> :lua require('utils.finder').find_files()<CR>
 	nnoremap <Leader>c *Nciw
