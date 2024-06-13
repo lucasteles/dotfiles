@@ -283,36 +283,27 @@ function M.setup()
        end,
     }
 
-     -- Auto pairs
-     -- use {
-     --   'windwp/nvim-autopairs',
-     --   wants = 'nvim-treesitter',
-     --   module = { 'nvim-autopairs.completion.cmp', 'nvim-autopairs' },
-     --   config = function()
-     --     require('config.autopairs').setup()
-     --   end,
-     -- }
+    use {
+      'windwp/nvim-ts-autotag',
+      wants = 'nvim-treesitter',
+      event = 'InsertEnter',
+      config = function()
+        require('nvim-ts-autotag').setup()
+      end,
+    }
 
-     -- Auto tag
-     -- use {
-     --   'windwp/nvim-ts-autotag',
-     --   wants = 'nvim-treesitter',
-     --   event = 'InsertEnter',
-     --   config = function()
-     --     require('nvim-ts-autotag').setup { enable = true }
-     --   end,
-     -- }
-
-     -- End wise
-     -- use {
-     --   'RRethy/nvim-treesitter-endwise',
-     --   wants = 'nvim-treesitter',
-     --   event = 'InsertEnter',
-     -- }
+    -- browser integration
     -- use {
     --     'glacambre/firenvim',
     --     run = function() vim.fn['firenvim#install'](0) end
     -- }
+
+    use {
+       'lukas-reineke/indent-blankline.nvim',
+       config = function()
+          require('ibl').setup()
+       end
+     }
 
     -- LSP
 
