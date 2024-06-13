@@ -9,7 +9,7 @@ vim.cmd [[
     let g:conjure#client#clojure#nrepl#eval#auto_require = v:false
     nmap <localleader><localleader>rr :Require<cr>
     nmap <localleader><localleader>ee :Eval<cr>
-    nmap <localleader><localleader>tn :RunTests<cr>   
+    nmap <localleader><localleader>tn :RunTests<cr>
 ]]
 
 end

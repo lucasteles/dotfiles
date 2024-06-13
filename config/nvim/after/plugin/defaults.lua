@@ -8,7 +8,6 @@ api.nvim_set_keymap("", "<Space>", "<Nop>", { noremap = true, silent = true })
 g.mapleader = " "
 g.maplocalleader = ","
 
-
 opt.termguicolors = true -- Enable colors in terminal
 opt.hlsearch = true --Set highlight on search
 opt.number = true --Make line numbers default
@@ -37,6 +36,9 @@ opt.shiftwidth=4
 opt.softtabstop=0
 opt.expandtab=true
 opt.smarttab=true
+
+-- slime
+g.slime_target = "tmux"
 
 vim.cmd [[
 let g:clipboard = {
@@ -71,3 +73,5 @@ vim.cmd [[
 ]]
 
 vim.cmd "colorscheme onedark"
+
+vim.loader.enable()

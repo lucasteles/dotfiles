@@ -14,8 +14,8 @@ vim.cmd [[
 	nnoremap <leader>n :NvimTreeToggle<CR>
 	nnoremap <leader><TAB> :bn!<CR>
 	nnoremap <Leader>s :%s/\<<C-r><C-w>\>/
-	nnoremap <c-b> :Telescope buffers<CR>
-	nnoremap <c-p> :lua require('utils.finder').find_files()<CR>
+	nnoremap <Leader><C-p> :Telescope buffers<CR>
+	nnoremap <C-p> :lua require('utils.finder').find_files()<CR>
 	nnoremap <Leader>c *Nciw
 	nnoremap <Leader>a :noh<CR>
 
@@ -63,3 +63,17 @@ keymap("n", "<ESC>", ":nohlsearch<Bar>:echo<CR>", default_opts)
 -- Move selected line / block of text in visual mode
 keymap("x", "K", ":move '<-2<CR>gv-gv", default_opts)
 keymap("x", "J", ":move '>+1<CR>gv-gv", default_opts)
+
+keymap("x", "<leader>ea", "<Plug>(EasyAlign)", {})
+keymap("n", "<leader>ea", "<Plug>(EasyAlign)", {})
+
+keymap('n', '<localleader>t', ':TermSelect<CR>', { noremap=true })
+keymap('n', '<C-t>', ':ToggleTerm<CR>', { noremap=true })
+keymap('t', '<esc>', '<c-\\><c-n>', default_opts)
+keymap('t', '<c-h>', '<c-\\><c-n><c-w>h', default_opts)
+keymap('t', '<c-j>', '<c-\\><c-n><c-w>j', default_opts)
+keymap('t', '<c-k>', '<c-\\><c-n><c-w>k', default_opts)
+keymap('t', '<c-l>', '<c-\\><c-n><c-w>l', default_opts)
+
+
+keymap('n', '<leader><CR>', ':Goyo<CR>', {})

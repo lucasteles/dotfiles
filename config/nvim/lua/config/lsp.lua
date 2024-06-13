@@ -1,5 +1,8 @@
 M = {}
 
+local navic = require "nvim-navic"
+local navbuddy = require "nvim-navbuddy"
+
 local on_attach = function(client, bufnr)
   -- Enable completion triggered by <c-x><c-o>
   vim.api.nvim_buf_set_option(bufnr, 'omnifunc', 'v:lua.vim.lsp.omnifunc')
@@ -21,10 +24,15 @@ local on_attach = function(client, bufnr)
   vim.keymap.set('n', '<space>ca', vim.lsp.buf.code_action, bufopts)
   vim.keymap.set('n', 'gr', vim.lsp.buf.references, bufopts)
   vim.keymap.set('n', '<space>f', function() vim.lsp.buf.format { async = true } end, bufopts)
+
+  if client.server_capabilities.documentSymbolProvider then
+    navic.attach(client, bufnr)
+    navbuddy.attach(client, bufnr)
+  end
 end
 
 
-function M.setup() 
+function M.setup()
     local opts = { noremap=true, silent=true }
     vim.keymap.set('n', '<space>e', vim.diagnostic.open_float, opts)
     vim.keymap.set('n', '[d', vim.diagnostic.goto_prev, opts)
@@ -35,33 +43,34 @@ function M.setup()
     local mason_config = require("mason-lspconfig")
 
     mason_config.setup {
-      ensure_installed = { 
-        "lua_ls", 
-        "rust_analyzer", 
-        "bashls", 
-        "omnisharp", 
-        "clojure_lsp",
-        "dockerls", 
-        "pyright",
+      ensure_installed = {
+        "lua_ls",
+        "csharp_ls",
         "fsautocomplete",
-        "html",
         "eslint",
         "tsserver",
-        "hls",
         "jsonls",
-        "marksman"
+        "html",
+        "marksman",
+        "bashls",
+        "dockerls",
+        "pyright",
+        "rust_analyzer",
+        "clojure_lsp",
       }
     }
 
+    local capabilities = require('cmp_nvim_lsp').default_capabilities()
     local lsp = require("lspconfig")
-    mason_config.setup_handlers {                                                                                                                              
-        function (server_name) 
-            lsp[server_name].setup {
-              on_attach = on_attach
-            }                                                                                                                       
-        end,                                                                                                                                                                 
-    }     
 
+    mason_config.setup_handlers {
+        function (server_name)
+            lsp[server_name].setup {
+              capabilities = capabilities,
+              on_attach = on_attach
+            }
+        end,
+    }
 end
 
 return M

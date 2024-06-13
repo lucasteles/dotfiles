@@ -1,6 +1,8 @@
 export CDPATH=~/dev
 export GPG_TTY=$(tty)
 export WINDOWS_HOST=`grep -m 1 nameserver /etc/resolv.conf | awk '{print$2}'`
+export DOTNET_CLI_TELEMETRY_OPTOUT=1
+
 
 #echo "$(ps -o command $$ | tail -n 10)" >> ~/log.txt
 #[[ "$(ps -o command $$ | tail -n 1)" != *"environ"* ]] && [[ "$(ps -o command $$ | tail -n 6)" != *"vscode"* ]] && [ -z "$TMUX"  ] && { tmux attach || exec tmux new-session && exit;}
@@ -19,6 +21,8 @@ fi
 
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
+
+. ~/.asdf/plugins/dotnet/set-dotnet-env.zsh
 
 export NNN_OPTS="H"
 export BAT_THEME="TwoDark"
@@ -147,3 +151,5 @@ bindkey -M vicmd 'y' vi-yank-xclip
 export PATH="$HOME/.poetry/bin:$PATH"
 export PATH="$HOME/.asdf/installs/rust/1.59.0/bin:$PATH"
 export PATH="$HOME/.local/bin:$PATH"
+
+[ -f "/home/lucasteles/.ghcup/env" ] && . "/home/lucasteles/.ghcup/env" # ghcup-env

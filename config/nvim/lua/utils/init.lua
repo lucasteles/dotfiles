@@ -1,7 +1,3 @@
-_G.dump = function(...)
-  print(vim.inspect(...))
-end
-
 _G.prequire = function(...)
   local status, lib = pcall(require, ...)
   if status then
@@ -10,16 +6,24 @@ _G.prequire = function(...)
   return nil
 end
 
-local M = {}
-
-function M.t(str)
+_G.t = function(str)
   return vim.api.nvim_replace_termcodes(str, true, true, true)
 end
 
-function M.log(msg, hl, name)
-  name = name or "Neovim"
-  hl = hl or "Todo"
-  vim.api.nvim_echo({ { name .. ": ", hl }, { msg } }, true, {})
+local M = {}
+
+function M.echo(msg, hl, name)
+  name = name or 'Neovim'
+  hl = hl or 'Todo'
+  vim.api.nvim_echo({ { name .. ': ', hl }, { msg } }, true, {})
+end
+
+function M.inspect(...)
+  print(vim.inspect(...))
+end
+
+function M.dump(...)
+  vim.notify(vim.inspect(...), vim.log.levels.DEBUG, { title = 'Dump' })
 end
 
 function M.warn(msg, name)
@@ -34,4 +38,5 @@ function M.info(msg, name)
   vim.notify(msg, vim.log.levels.INFO, { title = name })
 end
 
+_G.log = M
 return M

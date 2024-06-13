@@ -1,4 +1,7 @@
+require 'utils/init'
+
 local M = {}
+
 function M.setup()
   local packer_bootstrap = false
   local conf = { display = { open_fn = function() return require('packer.util').float { border = 'rounded' } end, },
@@ -29,42 +32,50 @@ function M.setup()
       event = 'VimEnter',
       config = function()
         vim.notify = require('notify')
+        vim.notify.setup({render = 'wrapped-compact'})
       end,
     }
 
-     -- Utilities
-     -- use 'jpalardy/vim-slime'
-     -- use 'dhruvasagar/vim-zoom'
-     -- use 'tpope/vim-repeat'
-     -- use 'sk1418/HowMuch'
-   
+
      -- Navigation
-     use 'vim-scripts/BufOnly.vim'
      use 'andymass/vim-matchup'
-   
+     use 'vim-scripts/BufOnly.vim'
+     use 'jpalardy/vim-slime'
+     -- use 'dhruvasagar/vim-zoom'
+     use {
+      'junegunn/goyo.vim',
+       config = function()
+         require('config.goyo').setup()
+       end,
+    }
+
      -- Text transformations
      use { 'mg979/vim-visual-multi', branch = 'master'}
      use 'tpope/vim-surround'
      use 'guns/vim-sexp'
      use 'junegunn/vim-easy-align' --Text alignment  j
-   
+
     -- Themes / VIsual
-    -- use 'arcticicestudio/nord-vim'
     -- use 'rakr/vim-one'
     use 'joshdick/onedark.vim'
-    use 'junegunn/rainbow_parentheses.vim'
-   
+
+    -- use 'junegunn/rainbow_parentheses.vim'
+    use {
+       'HiPhish/rainbow-delimiters.nvim',
+       config = function()
+         require('config.rainbow').setup()
+       end,
+    }
+
+
     -- Web
     -- use 'mattn/emmet-vim'
-   
+
     -- Tmux
     use 'christoomey/vim-tmux-navigator'
     use 'melonmanchan/vim-tmux-resizer'
     use 'RyanMillerC/better-vim-tmux-resizer'
-   
-   
-     -- use 'LunarVim/onedarker.nvim'
-   
+
      -- Startup screen
      use {
        'goolord/alpha-nvim',
@@ -72,9 +83,9 @@ function M.setup()
          require('config.alpha').setup()
        end,
      }
-   
+
      use { 'nvim-lua/plenary.nvim', module = 'plenary' }
-   
+
      -- Git
      use {
        'TimUntersberger/neogit',
@@ -84,7 +95,7 @@ function M.setup()
          require('config.neogit').setup()
        end,
      }
-   
+
      -- Better icons
      use {
        'kyazdani42/nvim-web-devicons',
@@ -93,7 +104,7 @@ function M.setup()
          require('nvim-web-devicons').setup { default = true }
        end,
      }
-   
+
      -- Better Comment
      use {
        'numToStr/Comment.nvim',
@@ -103,57 +114,73 @@ function M.setup()
          require('Comment').setup {}
        end,
      }
-     
-     -- Easy hopping
-     -- use {
-     --   'phaazon/hop.nvim',
-     --   config = function()
-     --     require('hop').setup {}
-     --   end,
-     --   disable = true
-     -- }
-   
+
      -- Easy motion
-     -- replaced by https://github.com/ggandor/leap.nvim
-     -- use {
-     --   'ggandor/lightspeed.nvim',
-     --   keys = { 's', 'S', 'f', 'F', 't', 'T' },
-     --   config = function()
-     --     require('lightspeed').setup {}
-     --   end,
-     --   disable = true
-     -- }
-   
+     -- https://github.com/ggandor/leap.nvim
+
      use {
-       'SmiteshP/nvim-gps',
-       requires = 'nvim-treesitter/nvim-treesitter',
-       module = 'nvim-gps',
+       'unblevable/quick-scope',
        config = function()
-         require('nvim-gps').setup()
+         vim.cmd [[
+           let g:qs_highlight_on_keys = ['f', 'F', 't', 'T']
+           au ColorScheme * highlight QuickScopePrimary guifg='#afff5f' gui=underline ctermfg=155 cterm=underline
+           au ColorScheme * highlight QuickScopeSecondary guifg='#5fffff' gui=underline ctermfg=81 cterm=underline
+         ]]
        end,
-     }
-   
+    }
+
+    use {
+      "akinsho/toggleterm.nvim",
+      tag = '*',
+      config = function()
+        require("toggleterm").setup({
+          open_mapping = [[<leader>t]], direction = "vertical",
+          size = 60, shade_terminals = true, start_in_insert = true,
+          insert_mappings = false, terminal_mappings = false,
+        })
+      end
+    }
+
+    use {
+        "SmiteshP/nvim-navic",
+        requires = { "neovim/nvim-lspconfig" },
+        config = function()
+          require('config.navic').setup()
+        end,
+    }
+
+    use {
+        "SmiteshP/nvim-navbuddy",
+        requires = {
+            "neovim/nvim-lspconfig",
+            "SmiteshP/nvim-navic",
+            "MunifTanjim/nui.nvim",
+            "numToStr/Comment.nvim",        -- Optional
+            "nvim-telescope/telescope.nvim" -- Optional
+        }
+    }
+
      use {
        'nvim-lualine/lualine.nvim',
        event = 'VimEnter',
+       requires = { 'nvim-tree/nvim-web-devicons', opt = true },
        config = function()
         require('config.lualine').setup()
        end,
-       requires = { 'nvim-web-devicons', 'nvim-gps' },
      }
-   
+
      use {
       'kyazdani42/nvim-tree.lua',
       requires = {
         'kyazdani42/nvim-web-devicons',
       },
-      cmd = { 'NvimTreeToggle', 'NvimTreeClose', 
+      cmd = { 'NvimTreeToggle', 'NvimTreeClose',
               'NvimTreeFocus', 'NvimTreeRefresh' },
       config = function()
         require('config.nvimtree').setup()
       end,
      }
-   
+
      -- User interface
      use {
        'stevearc/dressing.nvim',
@@ -164,7 +191,7 @@ function M.setup()
          }
        end,
      }
-   
+
      -- Buffer line
      use {
        'akinsho/nvim-bufferline.lua',
@@ -174,7 +201,7 @@ function M.setup()
          require('config.bufferline').setup()
        end,
      }
-   
+
      use {
        'nvim-telescope/telescope.nvim',
        opt = true,
@@ -210,30 +237,42 @@ function M.setup()
      }
 
 
+    -- snippets
     use 'rafamadriz/friendly-snippets'
     use 'L3MON4D3/LuaSnip'
 
-     -- lsp and completion
+     -- dev-xp
+    use {
+      'Olical/conjure',
+       config = function()
+        require('config.conjure').setup()
+       end,
+    }
+    use {
+      'karb94/neoscroll.nvim',
+      config = function()
+        require('config.neoscroll').setup()
+      end,
+    }
+    use {
+      'norcalli/nvim-colorizer.lua',
+       config = function()
+        vim.opt.termguicolors = true
+        require('colorizer').setup()
+       end,
+    }
 
-    use 'Olical/conjure'
+    use 'PaterJason/cmp-conjure'
+    use 'hrsh7th/cmp-buffer'
+    use 'hrsh7th/cmp-path'
+
     use {
         'hrsh7th/nvim-cmp',
-        requires = {
-            'hrsh7th/cmp-buffer',
-            'hrsh7th/cmp-path',
-            'hrsh7th/cmp-calc',
-            'hrsh7th/cmp-nvim-lsp',
-            'hrsh7th/cmp-nvim-lua',
-            'hrsh7th/cmp-vsnip',
-            'hrsh7th/cmp-cmdline',
-            'PaterJason/cmp-conjure',
-        },
+        requires = {'hrsh7th/cmp-nvim-lsp'},
         config = function()
             require('config.cmp').setup()
         end
     }
-
-    use 'saadparwaiz1/cmp_luasnip'
 
     use {
       'nvim-treesitter/nvim-treesitter',
@@ -252,7 +291,7 @@ function M.setup()
      --     require('config.autopairs').setup()
      --   end,
      -- }
-   
+
      -- Auto tag
      -- use {
      --   'windwp/nvim-ts-autotag',
@@ -262,7 +301,7 @@ function M.setup()
      --     require('nvim-ts-autotag').setup { enable = true }
      --   end,
      -- }
-   
+
      -- End wise
      -- use {
      --   'RRethy/nvim-treesitter-endwise',
@@ -271,7 +310,7 @@ function M.setup()
      -- }
     -- use {
     --     'glacambre/firenvim',
-    --     run = function() vim.fn['firenvim#install'](0) end 
+    --     run = function() vim.fn['firenvim#install'](0) end
     -- }
 
     -- LSP
@@ -279,17 +318,18 @@ function M.setup()
     use {'williamboman/mason.nvim', 'williamboman/mason-lspconfig.nvim'}
 
     use {
-      'neovim/nvim-lspconfig', 
-      config = function()
-        require('config.lsp').setup()
-      end
-    }
-    use {
        'ray-x/lsp_signature.nvim',
        config = function()
          require('config.lsp_signature').setup()
        end
      }
+
+    use {
+      'neovim/nvim-lspconfig',
+      config = function()
+        require('config.lsp').setup()
+      end
+    }
 
     if packer_bootstrap then
       print 'Restart Neovim required after installation!'
