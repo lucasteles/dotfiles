@@ -3,47 +3,11 @@
 	email = lucas.teles@outlook.com
 	signingkey = 4AAAB7AE
 
-[alias]
-    lg = !"git lg1"
-    lg1 = !"git lg1-specific"
-    lg2 = !"git lg2-specific"
-    lg3 = !"git lg3-specific"
+[commit]
+    gpgsign = true
 
-    lg1-specific = log --graph --abbrev-commit --decorate --format=format:'%C(bold blue)%h%C(reset) - %C(bold green)(%ar)%C(reset) %C(white)%s%C(reset) %C(dim white)- %an%C(reset)%C(auto)%d%C(reset)'
-    lg2-specific = log --graph --abbrev-commit --decorate --format=format:'%C(bold blue)%h%C(reset) - %C(bold cyan)%aD%C(reset) %C(bold green)(%ar)%C(reset)%C(auto)%d%C(reset)%n''          %C(white)%s%C(reset) %C(dim white)- %an%C(reset)'
-    lg3-specific = log --graph --abbrev-commit --decorate --format=format:'%C(bold blue)%h%C(reset) - %C(bold cyan)%aD%C(reset) %C(bold green)(%ar)%C(reset) %C(bold cyan)(committed: %cD)%C(reset) %C(auto)%d%C(reset)%n''          %C(white)%s%C(reset)%n''          %C(dim white)- %an <%ae> %C(reset) %C(dim white)(committer: %cn <%ce>)%C(reset)'
-
-    filesIn = diff-tree --no-commit-id --name-only -r 
-    breset = "!git checkout master && git branch | grep -v -e master | xargs -n1 git branch -D"
-    st = status
-    ci = commit -m
-    cm = !git add -A && git commit  -m
-    save = !git add -A && git commit --no-gpg-sign --no-verify -m 'SAVEPOINT'   
-    hard-reset = !git save && git reset --hard HEAD~1 && git clean -fd
-    co = checkout
-    ce = config --global -e
-    br = branch
-    fixup = commit --all --amend  --no-edit
-    fixmessage = commit --amend -m 
-    un = !GIT_CURRENT_BRANCH=$(git rev-parse --abbrev-ref HEAD) && git log origin/$GIT_CURRENT_BRANCH..
-    pend = !GIT_CURRENT_BRANCH=$(git rev-parse --abbrev-ref HEAD) && git log ..origin/$GIT_CURRENT_BRANCH
-    wip = !git add -A && git commit  -m "WIP"
-    wipush = "!git wip; git push"
-    force-wip = !git wip --no-verify --no-gpg-sign 
-    force-wipush = "!git force-wip; git push"
-    wipe = !git add -A && git commit --no-verify - -qm 'WIPE SAVEPOINT' && git reset HEAD~1 --hard
-    bclean = "!f() { git branch --merged ${1-master} | grep -v " ${1-master}$" | xargs -r git branch -d; }; f"
-    squash-master =!git reset $(git merge-base master $(git rev-parse --abbrev-ref HEAD)) && git cm 
-    squash-main = !git reset $(git merge-base main $(git rev-parse --abbrev-ref HEAD)) && git cm 
-    squash = rebase -i
-    bl = show-branch --list
-    fap = fetch --all --prune
-    fapull = !git fetch --all --prune && git merge FETCH_HEAD
-    bgone = !git branch -vv | grep ': gone]' | awk '{print $1}'
-    send = "!g() { git add -A && git commit  -m \"$*\" && "git push origin $(git rev-parse --abbrev-ref HEAD)"; }; g"
-    next = "!n() { git hard-reset && git log --reverse --pretty=%H master | grep -A 1 $(git rev-parse HEAD) | tail -n1 | xargs git checkout; }; n"
-    prev = "!p() { git stash && git checkout HEAD^1; }; p"
-
+[gpg]
+    program = gpg
 
 [core]
     autocrlf = false
@@ -62,8 +26,6 @@
     commit-decoration-style = bold yellow box ul
     file-style = bold yellow ul
     file-decoration-style = none
-[interactive]
-    diffFilter = delta --color-only
 
 [filter "lfs"]
 	clean = git-lfs clean -- %f
@@ -71,16 +33,55 @@
 	process = git-lfs filter-process
 	required = true
 
-[commit]
-    gpgsign = true
 [pull]
-	rebase = false
+    rebase = false
 
-[url "https://github.com/"]
-	insteadOf = git://github.com/
+# [url "https://github.com/"]
+# 	insteadOf = git://github.com/
 
-[gpg]
-     program = gpg2
+# [includeIf "gitdir/i:C:/"]
+#     path = ~/windows.gitconfig
 
-[includeIf "gitdir/i:C:/"]
-    path = ~/windows.gitconfig
+[alias]
+    lg = !"git lg1"
+    lg1 = !"git lg1-specific"
+    lg2 = !"git lg2-specific"
+    lg3 = !"git lg3-specific"
+
+    lg1-specific = log --graph --abbrev-commit --decorate --format=format:'%C(bold blue)%h%C(reset) - %C(bold green)(%ar)%C(reset) %C(white)%s%C(reset) %C(dim white)- %an%C(reset)%C(auto)%d%C(reset)'
+    lg2-specific = log --graph --abbrev-commit --decorate --format=format:'%C(bold blue)%h%C(reset) - %C(bold cyan)%aD%C(reset) %C(bold green)(%ar)%C(reset)%C(auto)%d%C(reset)%n''          %C(white)%s%C(reset) %C(dim white)- %an%C(reset)'
+    lg3-specific = log --graph --abbrev-commit --decorate --format=format:'%C(bold blue)%h%C(reset) - %C(bold cyan)%aD%C(reset) %C(bold green)(%ar)%C(reset) %C(bold cyan)(committed: %cD)%C(reset) %C(auto)%d%C(reset)%n''          %C(white)%s%C(reset)%n''          %C(dim white)- %an <%ae> %C(reset) %C(dim white)(committer: %cn <%ce>)%C(reset)'
+
+    filesIn = diff-tree --no-commit-id --name-only -r
+    breset = "!git checkout master && git branch | grep -v -e master | xargs -n1 git branch -D"
+    breset-trunk = "!git checkout trunk && git branch | grep -v -e trunk | xargs -n1 git branch -D"
+    breset-main = "!git checkout main && git branch | grep -v -e main | xargs -n1 git branch -D"
+    st = status
+    ci = commit -m
+    cm = !git add -A && git commit  -m
+    save = !git add -A && git commit --no-gpg-sign --no-verify -m 'SAVEPOINT'
+    hard-reset = !git save && git reset --hard HEAD~1 && git clean -fd
+    co = checkout
+    ce = config --global -e
+    br = branch
+    master = !git checkout master || git checkout main || git checkout trunk
+    fixup = commit --all --amend  --no-edit
+    fixmessage = commit --amend -m
+    un = !GIT_CURRENT_BRANCH=$(git rev-parse --abbrev-ref HEAD) && git log origin/$GIT_CURRENT_BRANCH..
+    pend = !GIT_CURRENT_BRANCH=$(git rev-parse --abbrev-ref HEAD) && git log ..origin/$GIT_CURRENT_BRANCH
+    wip = !git add -A && git commit  -m "WIP"
+    wipush = "!git wip; git push"
+    force-wip = !git wip --no-verify --no-gpg-sign
+    force-wipush = "!git force-wip; git push"
+    wipe = !git add -A && git commit --no-verify - -qm 'WIPE SAVEPOINT' && git reset HEAD~1 --hard
+    bclean = "!f() { git branch --merged ${1-master} | grep -v " ${1-master}$" | xargs -r git branch -d; }; f"
+    squash-master =!git reset $(git merge-base master $(git rev-parse --abbrev-ref HEAD)) && git cm
+    squash-main = !git reset $(git merge-base main $(git rev-parse --abbrev-ref HEAD)) && git cm
+    squash = rebase -i
+    bl = show-branch --list
+    fap = fetch --all --prune
+    fapull = !git fetch --all --prune && git merge FETCH_HEAD
+    bgone = !git branch -vv | grep ': gone]' | awk '{print $1}'
+    send = "!g() { git add -A && git commit  -m \"$*\" && "git push origin $(git rev-parse --abbrev-ref HEAD)"; }; g"
+    next = "!n() { git hard-reset && git log --reverse --pretty=%H master | grep -A 1 $(git rev-parse HEAD) | tail -n1 | xargs git checkout; }; n"
+    prev = "!p() { git stash && git checkout HEAD^1; }; p"
