@@ -33,6 +33,7 @@ vim.cmd [[
 	command! Encode64 execute '.!base64'
 	command! Decode64 execute '.!base64 -d'
 	command! Vimrc :vs ~/.config/nvim/after/plugin/defaults.lua
+	command! Plugins :vs ~/.config/nvim/plugins.lua
 	command! Keymaps :vs ~/.config/nvim/after/plugin/keymaps.lua
 	command! Refresh :so $MYVIMRC
 	command! Plugins :vs ~/.config/nvim/lua/plugins.lua

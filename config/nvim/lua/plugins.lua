@@ -36,7 +36,6 @@ function M.setup()
       end,
     }
 
-
      -- Navigation
      use 'andymass/vim-matchup'
      use 'vim-scripts/BufOnly.vim'
@@ -67,7 +66,6 @@ function M.setup()
        end,
     }
 
-
     -- Web
     -- use 'mattn/emmet-vim'
 
@@ -77,12 +75,15 @@ function M.setup()
     use 'RyanMillerC/better-vim-tmux-resizer'
 
      -- Startup screen
-     use {
-       'goolord/alpha-nvim',
-       config = function()
-         require('config.alpha').setup()
-       end,
-     }
+    use {
+      'nvimdev/dashboard-nvim',
+      event = 'VimEnter',
+      config = function()
+        require('config.dashboard').setup()
+      end,
+      requires = {'nvim-tree/nvim-web-devicons'}
+    }
+
 
      use { 'nvim-lua/plenary.nvim', module = 'plenary' }
 
