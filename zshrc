@@ -22,8 +22,6 @@ fi
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
 
-. ~/.asdf/plugins/dotnet/set-dotnet-env.zsh
-
 export NNN_OPTS="H"
 export BAT_THEME="TwoDark"
 export LESS=-RS
@@ -45,13 +43,13 @@ alias cls="clear"
 alias catx="\cat"
 alias cat="bat"
 
-alias ls="exa --icons -G"
-alias l="exa --icons -l"
+alias ls="eza --icons -G"
+alias l="eza --icons -l"
 alias lss='nnn -de'
 alias lsx="\ls"
 
 alias open="explorer.exe"
-alias tree="exa -T --icons"
+alias tree="eza -T --icons"
 alias treex="\tree"
 alias du="dust"
 alias dux="\du"
@@ -70,7 +68,6 @@ alias z='fasd_cd -d'     # cd, same functionality as j in autojump
 alias zz='fasd_cd -d -i' # cd with interactive selection
 alias refresh="source ~/.zshrc"
 alias zshrc="vim ~/.zshrc"
-alias lvim="/home/lucasteles/.local/bin/lvim"
 alias compose-reset='docker compose ls --format=json | jq ".[].ConfigFiles" --raw-output | tr -d "\n" |  xargs -d "," -I "compose_file"  docker-compose -f "compose_file" down --remove-orphans'
 alias docker-up-rm="docker-compose rm -fsv; docker-compose up && docker-compose rm -fsv"
 alias docker-force-reset="compose-reset; docker rm -f $(docker ps -q -a); docker system prune -fa"
@@ -79,16 +76,15 @@ bindkey "^[[A" history-beginning-search-backward
 bindkey "^[[B" history-beginning-search-forward
 
 function zvm_after_init() {
-	source ~/.zsh/zsh-autosuggestions/zsh-autosuggestions.zsh
-	source /usr/share/fzf/key-bindings.zsh
-	source /usr/share/fzf/completion.zsh
-	ssh-add ~/.ssh/id_ed25519_ssh > /dev/null 2>&1
+  source ~/.zsh/zsh-autosuggestions/zsh-autosuggestions.zsh
+  source /usr/share/fzf/key-bindings.zsh
+  source /usr/share/fzf/completion.zsh
+  ssh-add ~/.ssh/id_ed25519_ssh > /dev/null 2>&1
 }
 
 source /usr/share/zsh-theme-powerlevel10k/powerlevel10k.zsh-theme
 source /opt/asdf-vm/asdf.sh
-# eval $(thefuck --alias)
-# eval $(thefuck --alias oops)
+eval $(thefuck --alias)
 source /usr/share/zsh/plugins/zsh-vi-mode/zsh-vi-mode.plugin.zsh 
 eval "$(fasd --init auto)"
 
@@ -105,36 +101,35 @@ bindkey "^[[B" down-line-or-beginning-search
 
 bindkey -v
 
-
 takedir () {
-        mkdir -p $@ && cd ${@:$#}
+  mkdir -p $@ && cd ${@:$#}
 }
 
 takeurl () {
-        local data thedir
-        data="$(mktemp)"
-        curl -L "$1" > "$data"
-        tar xf "$data"
-        thedir="$(tar tf "$data" | head -n 1)"
-        rm "$data"
-        cd "$thedir"
+  local data thedir
+  data="$(mktemp)"
+  curl -L "$1" > "$data"
+  tar xf "$data"
+  thedir="$(tar tf "$data" | head -n 1)"
+  rm "$data"
+  cd "$thedir"
 }
 
 takegit () {
-        git clone "$1"
-        cd "$(basename ${1%%.git})"
+ git clone "$1"
+ cd "$(basename ${1%%.git})"
 }
 
 take () {
-        if [[ $1 =~ ^(https?|ftp).*\.tar\.(gz|bz2|xz)$ ]]
-        then
-                takeurl "$1"
-        elif [[ $1 =~ ^([A-Za-z0-9]\+@|https?|git|ssh|ftps?|rsync).*\.git/?$ ]]
-        then
-                takegit "$1"
-        else
-                takedir "$@"
-        fi
+  if [[ $1 =~ ^(https?|ftp).*\.tar\.(gz|bz2|xz)$ ]]
+  then
+    takeurl "$1"
+  elif [[ $1 =~ ^([A-Za-z0-9]\+@|https?|git|ssh|ftps?|rsync).*\.git/?$ ]]
+  then
+    takegit "$1"
+  else
+    takedir "$@"
+  fi
 }
 
 # vi mode
@@ -142,8 +137,8 @@ bindkey -v
 
 # Yank to the system clipboard
 function vi-yank-xclip {
-    zle vi-yank
-    echo "$CUTBUFFER" | clip.exe
+  zle vi-yank
+  echo "$CUTBUFFER" | clip.exe
 }
 zle -N vi-yank-xclip
 bindkey -M vicmd 'y' vi-yank-xclip
@@ -151,5 +146,9 @@ bindkey -M vicmd 'y' vi-yank-xclip
 export PATH="$HOME/.poetry/bin:$PATH"
 export PATH="$HOME/.asdf/installs/rust/1.59.0/bin:$PATH"
 export PATH="$HOME/.local/bin:$PATH"
+
+# Dev env
+
+. ~/.asdf/plugins/dotnet/set-dotnet-env.zsh
 
 [ -f "/home/lucasteles/.ghcup/env" ] && . "/home/lucasteles/.ghcup/env" # ghcup-env
