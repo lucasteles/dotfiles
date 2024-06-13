@@ -57,7 +57,7 @@ function M.setup()
         { action = "Telescope find_files", desc = " Find file", icon = " ", key = "f", key_format = ' %s' },
         { action = "Telescope oldfiles", desc = " Recent files", icon = " ", key = "r", key_format = ' %s'  },
         { action = "Telescope live_grep",desc = " Find text",icon = " ", key = "g", key_format = ' %s'  },
-        { action = 'e ~/.config/nvim/after/plugin/defaults.lua <CR>', desc = " Configuration", icon = " ", key = "c", key_format = ' %s' },
+        { action = 'e $MYVIMRC', desc = " Configuration", icon = " ", key = "c", key_format = ' %s' },
         { action = 'Lazy', desc = " Plugins", icon = " ", key = "p", key_format = ' %s' },
         { action = function() vim.api.nvim_input("<cmd>qa<cr>") end, desc = " Quit", icon = " ", key = "q",  key_format = ' %s' },
       },
