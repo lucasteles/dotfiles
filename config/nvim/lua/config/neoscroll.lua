@@ -4,7 +4,7 @@ local M = {}
 function M.setup()
     local status_ok, neoscroll = pcall(require, "neoscroll")
     if not status_ok then
-    return
+      return
     end
 
     neoscroll.setup {

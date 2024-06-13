@@ -1,7 +1,7 @@
 M = {}
 
-local navic = require "nvim-navic"
-local navbuddy = require "nvim-navbuddy"
+local navic = require 'nvim-navic'
+local navbuddy = require 'nvim-navbuddy'
 
 local on_attach = function(client, bufnr)
   -- Enable completion triggered by <c-x><c-o>
@@ -44,19 +44,19 @@ function M.setup()
 
     mason_config.setup {
       ensure_installed = {
-        "lua_ls",
-        "csharp_ls",
-        "fsautocomplete",
-        "eslint",
-        "tsserver",
-        "jsonls",
-        "html",
-        "marksman",
-        "bashls",
-        "dockerls",
-        "pyright",
-        "rust_analyzer",
-        "clojure_lsp",
+        'lua_ls',
+        'csharp_ls',
+        'fsautocomplete',
+        'eslint',
+        'tsserver',
+        'jsonls',
+        'html',
+        'marksman',
+        'bashls',
+        'dockerls',
+        'pyright',
+        'rust_analyzer',
+        'clojure_lsp',
       }
     }
 

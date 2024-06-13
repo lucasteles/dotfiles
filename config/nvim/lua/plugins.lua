@@ -301,8 +301,9 @@ function M.setup()
     use {
        'lukas-reineke/indent-blankline.nvim',
        config = function()
-          require('ibl').setup()
-       end
+         require("ibl").setup({
+           exclude = { filetypes = { "dashboard" } } })
+       end,
      }
 
     -- LSP
@@ -313,14 +314,30 @@ function M.setup()
        'ray-x/lsp_signature.nvim',
        config = function()
          require('config.lsp_signature').setup()
-       end
+       end,
      }
 
     use {
       'neovim/nvim-lspconfig',
       config = function()
         require('config.lsp').setup()
-      end
+      end,
+    }
+
+    use {
+      'mfussenegger/nvim-dap',
+      requires = {'williamboman/mason.nvim', 'williamboman/mason-lspconfig.nvim'},
+      config = function()
+        require('config.dap').setup()
+      end,
+    }
+
+    use {
+      'rcarriga/nvim-dap-ui',
+      requires = {'mfussenegger/nvim-dap', 'nvim-neotest/nvim-nio'},
+      config = function()
+        require('config.dap').setup_ui()
+      end,
     }
 
     if packer_bootstrap then
