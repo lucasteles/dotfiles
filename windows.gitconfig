@@ -1,3 +1,6 @@
+[includeIf "gitdir/i:~/dotfiles/"]
+    path = ~/dotfiles/gitconfig
+
 [gpg]
     program = gpg
 

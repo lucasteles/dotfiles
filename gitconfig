@@ -39,9 +39,6 @@
 # [url "https://github.com/"]
 # 	insteadOf = git://github.com/
 
-# [includeIf "gitdir/i:C:/"]
-#     path = ~/windows.gitconfig
-
 [alias]
     lg = !"git lg1"
     lg1 = !"git lg1-specific"
