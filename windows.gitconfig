@@ -1,6 +1,8 @@
-[credential]
-     helper = wincred
-
 [gpg]
-   ; program = C:\\Tools\\gpg
-	 program = C:\\Program Files (x86)\\GnuPG\\bin\\gpg.exe 
+    program = gpg
+
+ [credential]
+    credentialStore = wincredman
+
+[core]
+    autocrlf = true

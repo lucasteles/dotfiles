@@ -33,12 +33,13 @@ function global:$name {
     $func | Invoke-Expression
 }
 
+Remove-Alias -ErrorAction Ignore -Name r
 Remove-Alias -ErrorAction Ignore -Name rm
 Remove-Alias -ErrorAction Ignore -Name cat
 
 Add-Alias ~ 'Set-Location ~'
 Add-Alias .. 'Set-Location ..'
-Add-Alias uuidgen '[guid]::NewGuid().ToString()'
+Add-Alias gen-uuid '[guid]::NewGuid().ToString()'
 Add-Alias vim 'nvim'
 Add-Alias vi 'nvim'
 Add-Alias sln 'Invoke-Item *.sln'
@@ -59,6 +60,10 @@ function sudo() {
     if ($args.Length -gt 1) {
         start-process $args[0] -ArgumentList $args[1..$args.Length] -verb "runAs"
     }
+}
+
+function get-uuid() {
+    return [System.Guid]::NewGuid().ToString()
 }
 
 function take() {
@@ -85,7 +90,7 @@ function netstatx {
     }  | Format-Table -Property Proto, "Local Address", "Foreign Address", State, "Process Id", "Process Name" -AutoSize
 }
 
-function get-locker {
+function get-file-locker {
     param(
         [parameter(Position = 0, Mandatory = $true)]
         [String] $FileOrFolderPath
@@ -142,7 +147,7 @@ function Remove-Empty-Folders {
     Remove-Item -Verbose
 
 }
-function Replace-Ocurrences {
+function Find-Replace-Ocurrences {
     param(
         [String] $Folder,
         [String] $FilePattern,
@@ -179,4 +184,42 @@ function Replace-Ocurrences {
 
     $folders = Get-ChildItem -Path $Folder -Recurse -Directory
     update-file-contents -Files $folders
+}
+
+function Get-Docker-Img-Size {
+    param(
+        [parameter(Position = 0, Mandatory = $true)]
+        [String] $Name
+    )
+    $TmpFile = [System.IO.Path]::GetTempFileName() + ".tar"
+    docker save $Name -o $TmpFile
+    gzip $TmpFile
+    $GzFile = "$($TmpFile).gz"
+    $Size = (Get-Item -Path $GzFile).Length / 1MB
+    Write-Output $('{0:N2} MB' -f $Size)
+    Remove-Item $GzFile
+}
+
+function Watch-Command {
+    [CmdletBinding(ConfirmImpact='High')]
+    param (
+        [Parameter(Mandatory=$False,
+                   ValueFromPipeline=$True,
+                   ValueFromPipelineByPropertyName=$True)]
+        [int]$n = 10,
+
+        [Parameter(Mandatory=$True,
+                   ValueFromPipeline=$True,
+                   ValueFromPipelineByPropertyName=$True)]
+        [string]$command
+    )
+    process {
+        $cmd = [scriptblock]::Create($command);
+        While($True) {
+            Clear-Host;
+            Write-Host "Command: " $command;
+            $cmd.Invoke();
+            Start-Sleep $n;
+        }
+    }
 }
