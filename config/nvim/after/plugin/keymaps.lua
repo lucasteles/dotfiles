@@ -16,11 +16,12 @@ vim.cmd [[
 	nnoremap <leader>q :bd<CR>
 	nnoremap <leader>Q :bd!<CR>
 	nnoremap <leader>s :w<CR>
-	nnoremap <Leader>r :%s/\<<C-r><C-w>\>/
-	nnoremap <Leader><C-p> :Telescope buffers<CR>
+	nnoremap <leader>r :%s/\<<C-r><C-w>\>/
+	nnoremap <localleader><C-p> :Telescope buffers<CR>
+	nnoremap <leader><C-p> :Telescope live_grep<CR>
 	nnoremap <C-p> :lua require('utils.finder').find_files()<CR>
-	nnoremap <Leader>c *Nciw
-	nnoremap <Leader>a :noh<CR>
+	nnoremap <leader>c *Nciw
+	nnoremap <leader>a :noh<CR>
 
 	let g:tmux_navigator_no_mappings = 1
 	nnoremap <silent> <C-h> :TmuxNavigateLeft<cr>
@@ -35,10 +36,9 @@ vim.cmd [[
 
 	command! Encode64 execute '.!base64'
 	command! Decode64 execute '.!base64 -d'
-	command! Vimrc :vs ~/.config/nvim/after/plugin/defaults.lua
-	command! Plugins :vs ~/.config/nvim/plugins.lua
-	command! Keymaps :vs ~/.config/nvim/after/plugin/keymaps.lua
 	command! Refresh :so $MYVIMRC
+	command! Keymaps :vs ~/.config/nvim/after/plugin/keymaps.lua
+	command! Vimrc :vs ~/.config/nvim/init.lua
 	command! Plugins :vs ~/.config/nvim/lua/plugins.lua
 ]]
 

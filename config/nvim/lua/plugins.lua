@@ -22,7 +22,6 @@ local plugin_list = {
     end
   },
 
-  -- 'dhruvasagar/vim-zoom',
   {
     'junegunn/goyo.vim',
     config = function()
@@ -136,13 +135,13 @@ local plugin_list = {
   },
 
   {
-    "SmiteshP/nvim-navbuddy",
+    'SmiteshP/nvim-navbuddy',
     dependencies = {
-      "neovim/nvim-lspconfig",
-      "SmiteshP/nvim-navic",
-      "MunifTanjim/nui.nvim",
-      "numToStr/Comment.nvim",            -- Optional
-      "nvim-telescope/telescope.nvim"     -- Optional
+      'neovim/nvim-lspconfig',
+      'SmiteshP/nvim-navic',
+      'MunifTanjim/nui.nvim',
+      'numToStr/Comment.nvim',            -- Optional
+      'nvim-telescope/telescope.nvim'     -- Optional
     }
   },
 
@@ -157,14 +156,18 @@ local plugin_list = {
 
   {
     'kyazdani42/nvim-tree.lua',
-    dependencies = {
-      'kyazdani42/nvim-web-devicons',
-    },
-    cmd = { 'NvimTreeToggle', 'NvimTreeClose',
-      'NvimTreeFocus', 'NvimTreeRefresh' },
+    dependencies = { 'kyazdani42/nvim-web-devicons' },
     config = function()
       require('config.nvimtree').setup()
     end,
+    init = function()
+      vim.g.nvim_tree_respect_buf_cwd = 1
+      vim.cmd([[
+          :hi NvimTreeExecFile    guifg=#2266fe gui=bold
+          :hi NvimTreeSpecialFile guifg=#903288 gui=underline
+          :hi NvimTreeSymlink     guifg=Yellow  gui=italic
+      ]])
+    end
   },
 
   -- User interface
@@ -222,17 +225,20 @@ local plugin_list = {
     },
   },
 
-  -- snippets
-  'rafamadriz/friendly-snippets',
-  'L3MON4D3/LuaSnip',
-
-  -- dev-xp
+  -- langs
   {
     'Olical/conjure',
     config = function()
       require('config.conjure').setup()
     end,
   },
+  'daveyarwood/vim-alda',
+
+  -- snippets
+  'rafamadriz/friendly-snippets',
+  'L3MON4D3/LuaSnip',
+
+  -- dev-xp
   {
     'karb94/neoscroll.nvim',
     config = function()
@@ -323,8 +329,7 @@ local plugin_list = {
   },
 }
 
-
-function M.load()
+local function load()
   local lazypath = vim.fn.stdpath('data') .. '/lazy/lazy.nvim'
   if not (vim.uv or vim.loop).fs_stat(lazypath) then
     vim.fn.system({
@@ -340,6 +345,7 @@ function M.load()
 end
 
 function M.install()
+  load()
   return require('lazy').setup(plugin_list)
 end
 

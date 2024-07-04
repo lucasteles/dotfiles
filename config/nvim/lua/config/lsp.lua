@@ -39,8 +39,8 @@ function M.setup()
     vim.keymap.set('n', ']d', vim.diagnostic.goto_next, opts)
     vim.keymap.set('n', '<space>q', vim.diagnostic.setloclist, opts)
 
-    require("mason").setup()
-    local mason_config = require("mason-lspconfig")
+    require('mason').setup()
+    local mason_config = require 'mason-lspconfig'
 
     mason_config.setup {
       ensure_installed = {
@@ -61,7 +61,7 @@ function M.setup()
     }
 
     local capabilities = require('cmp_nvim_lsp').default_capabilities()
-    local lsp = require("lspconfig")
+    local lsp = require('lspconfig')
 
     mason_config.setup_handlers {
         function (server_name)
@@ -71,7 +71,33 @@ function M.setup()
             }
         end,
     }
-end
+
+    lsp.lua_ls.setup {
+      on_init = function(client)
+        local path = client.workspace_folders[1].name
+        if vim.loop.fs_stat(path..'/.luarc.json') or vim.loop.fs_stat(path..'/.luarc.jsonc') then
+          return
+        end
+
+        client.config.settings.Lua = vim.tbl_deep_extend('force', client.config.settings.Lua, {
+          runtime = {
+            version = 'LuaJIT'
+          },
+          workspace = {
+            checkThirdParty = false,
+            library = {
+              vim.env.VIMRUNTIME
+              -- Depending on the usage, you might want to add additional paths here.
+              -- "${3rd}/luv/library"
+            }
+            -- or pull in all of 'runtimepath'. NOTE: this is a lot slower
+            -- library = vim.api.nvim_get_runtime_file("", true)
+          }
+        })
+      end,
+      settings = { Lua = {} }
+    }
+  end
 
 return M
 

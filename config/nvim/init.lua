@@ -4,12 +4,16 @@ local api = vim.api
 local g = vim.g
 local opt = vim.opt
 
-vim.loader.enable()
+-- disable netrw
+g.loaded_netrw = 1
+g.loaded_netrwPlugin = 1
 
 -- Remap leader and local leader to <Space>
 api.nvim_set_keymap('', '<Space>', '<Nop>', { noremap = true, silent = true })
 g.mapleader = ' '
 g.maplocalleader = ','
+
+vim.loader.enable()
 
 opt.termguicolors = true              -- Enable colors in terminal
 opt.hlsearch = true                   --Set highlight on search
@@ -32,6 +36,7 @@ opt.path:append '**'
 opt.wildignorecase = true
 opt.wildignore:append '**/node_modules/*'
 opt.wildignore:append '**/.git/*'
+opt.wrap = false
 
 -- tab config
 opt.tabstop = 4
@@ -41,9 +46,6 @@ opt.expandtab = true
 opt.smarttab = true
 
 require 'custom.cmds'
-
-local plugins = require 'plugins'
-plugins.load()
-plugins.install()
+require('plugins').install()
 
 vim.cmd.colorscheme 'onedark'

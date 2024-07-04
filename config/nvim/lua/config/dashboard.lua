@@ -66,7 +66,6 @@ function M.setup()
         local ms = (math.floor(stats.startuptime * 100 + 0.5) / 100)
         local datetime = os.date "󰃭 %d-%m-%Y  %H:%M:%S - "
         return { "⚡ Neovim loaded - " .. datetime .. stats.loaded .. "/" .. stats.count .. " plugins in " .. ms .. "ms" }
-
       end,
     },
   }

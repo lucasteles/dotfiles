@@ -19,8 +19,8 @@ function M.setup()
         ['<C-b>'] = {'scroll', {'-vim.api.nvim_win_get_height(0)', 'true', '200'}},
         ['<C-f>'] = {'scroll', { 'vim.api.nvim_win_get_height(0)', 'true', '200'}},
 
-        ['<A-w>'] = {'scroll', {'-vim.wo.scroll', 'false', '120', [['sine']]}},
-        ['<A-s>'] = {'scroll', { 'vim.wo.scroll', 'false', '120', [['sine']]}},
+        ['<A-w>'] = {'scroll', {'-vim.wo.scroll', 'false', '150', [['sine']]}},
+        ['<A-s>'] = {'scroll', { 'vim.wo.scroll', 'false', '150', [['sine']]}},
 
         ['zz'] = {'zz', {'150'}},
         ['zb'] = {'zb', {'150'}},
