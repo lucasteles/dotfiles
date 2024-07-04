@@ -5,7 +5,7 @@ local navbuddy = require 'nvim-navbuddy'
 
 local on_attach = function(client, bufnr)
   -- Enable completion triggered by <c-x><c-o>
-  vim.api.nvim_buf_set_option(bufnr, 'omnifunc', 'v:lua.vim.lsp.omnifunc')
+  vim.api.nvim_set_option_value('omnifunc', 'v:lua.vim.lsp.omnifunc', { buf = bufnr })
 
   -- Mappings.
   local bufopts = { noremap=true, silent=true, buffer=bufnr }
@@ -75,7 +75,7 @@ function M.setup()
     lsp.lua_ls.setup {
       on_init = function(client)
         local path = client.workspace_folders[1].name
-        if vim.loop.fs_stat(path..'/.luarc.json') or vim.loop.fs_stat(path..'/.luarc.jsonc') then
+        if vim.uv.fs_stat(path ..'/.luarc.json') then
           return
         end
 
@@ -86,9 +86,8 @@ function M.setup()
           workspace = {
             checkThirdParty = false,
             library = {
-              vim.env.VIMRUNTIME
-              -- Depending on the usage, you might want to add additional paths here.
-              -- "${3rd}/luv/library"
+              vim.env.VIMRUNTIME,
+              "${3rd}/luv/library",
             }
             -- or pull in all of 'runtimepath'. NOTE: this is a lot slower
             -- library = vim.api.nvim_get_runtime_file("", true)

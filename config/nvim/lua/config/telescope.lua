@@ -35,7 +35,7 @@ function M.setup()
 
           if mime_type == "text" then
             -- Check file size
-            vim.loop.fs_stat(filepath, function(_, stat)
+            vim.uv.fs_stat(filepath, function(_, stat)
               if not stat then
                 return
               end
