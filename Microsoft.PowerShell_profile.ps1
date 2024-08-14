@@ -1,7 +1,8 @@
 oh-my-posh prompt init pwsh --config https://raw.githubusercontent.com/JanDeDobbeleer/oh-my-posh/v$(oh-my-posh --version)/themes/bubbles.omp.json | Invoke-Expression
 
 $env:LC_ALL = 'C.UTF-8'
-$env:PYTHONIOENCODING = "utf-8"
+$env:PYTHONIOENCODING = 'utf-8'
+$env:DOTNET_CLI_TELEMETRY_OPTOUT = 'true'
 
 Import-Module DockerCompletion
 Import-Module npm-completion
