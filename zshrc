@@ -1,4 +1,5 @@
 export GPG_TTY=$(tty)
+
 export EDITOR=vim
 export GIT_EDITOR=vim
 export DOTNET_CLI_TELEMETRY_OPTOUT=1
@@ -20,7 +21,7 @@ function zsh_platform_init() {
   case "$(uname -sr)" in
      Darwin*)
        echo 'Mac OS X'
-       ssh-add --apple-use-keychain
+       ssh-add --apple-load-keychain --apple-use-keychain
        ;;
 
      # Linux*Microsoft*)
