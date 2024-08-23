@@ -1,39 +1,63 @@
-export CDPATH=~/dev
 export GPG_TTY=$(tty)
-export WINDOWS_HOST=`grep -m 1 nameserver /etc/resolv.conf | awk '{print$2}'`
-export DOTNET_CLI_TELEMETRY_OPTOUT=1
-
-
-#echo "$(ps -o command $$ | tail -n 10)" >> ~/log.txt
-#[[ "$(ps -o command $$ | tail -n 1)" != *"environ"* ]] && [[ "$(ps -o command $$ | tail -n 6)" != *"vscode"* ]] && [ -z "$TMUX"  ] && { tmux attach || exec tmux new-session && exit;}
-#[ -z "$TMUX"  ] && { tmux attach || exec tmux new-session && exit;}
-
-eval "$(ssh-agent -s)" > /dev/null 2>&1  
-
-#set clipboard terminal
-# Enable Powerlevel10k instant prompt. Should stay close to the top of ~/.zshrc.
-# Initialization code that may require console input (password prompts, [y/n]
-# confirmations, etc.) must go above this block; everything else may go below.
-if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
-  source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
-fi
-
-# To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
-[[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
-
-export NNN_OPTS="H"
-export BAT_THEME="TwoDark"
-export LESS=-RS
 export EDITOR=vim
 export GIT_EDITOR=vim
+export DOTNET_CLI_TELEMETRY_OPTOUT=1
+export WINDOWS_HOST=`grep -m 1 nameserver /etc/resolv.conf | awk '{print$2}'`
+export ASDF_DATA_DIR=~/.asdf
+export BAT_THEME="TwoDark"
+export NNN_OPTS="H"
+export LESS=-RS
+export FZF_DEFAULT_COMMAND='rg --files --no-ignore-vcs --hidden'
+export FZF_CTRL_T_OPTS="--preview '(highlight -O ansi -l {} 2> /dev/null || cat {} || tree -C {}) 2> /dev/null | head -200'"
+export CDPATH=~/dev
 
 HISTFILE=~/.zsh_history
 HISTSIZE=10000
 SAVEHIST=10000
 setopt appendhistory
- 
-export FZF_DEFAULT_COMMAND='rg --files --no-ignore-vcs --hidden'
-export FZF_CTRL_T_OPTS="--preview '(highlight -O ansi -l {} 2> /dev/null || cat {} || tree -C {}) 2> /dev/null | head -200'"
+
+function zsh_platform_init() {
+  case "$(uname -sr)" in
+     Darwin*)
+       echo 'Mac OS X'
+       ssh-add --apple-use-keychain
+       ;;
+
+     # Linux*Microsoft*)
+     #   echo 'WSL'  # Windows Subsystem for Linux
+     #   ssh-add ~/.ssh/id_ed25519_ssh > /dev/null 2>&1  
+     #   ;;
+     #
+     # Linux*)
+     #   echo 'Linux'
+     #   ssh-add ~/.ssh/id_ed25519_ssh > /dev/null 2>&1  
+     #   ;;
+     #
+     # CYGWIN*|MINGW*|MINGW32*|MSYS*)
+     #   echo 'MS Windows'
+     #   ;;
+     *)
+       echo 'Other OS'
+       ssh-add ~/.ssh/id_ed25519_ssh > /dev/null 2>&1  
+       ;;
+  esac
+}
+
+# echo "$(ps -o command $$ | tail -n 10)" >> ~/log.txt
+#[[ "$(ps -o command $$ | tail -n 1)" != *"environ"* ]] && [[ "$(ps -o command $$ | tail -n 6)" != *"vscode"* ]] && [ -z "$TMUX"  ] && { tmux attach || exec tmux new-session && exit;}
+#[ -z "$TMUX"  ] && { tmux attach || exec tmux new-session && exit;}
+
+
+eval "$(ssh-agent -s)" > /dev/null 2>&1  
+zsh_platform_init
+
+source /opt/asdf-vm/asdf.sh
+
+if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
+  source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
+fi
+[[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
+source /usr/share/zsh-theme-powerlevel10k/powerlevel10k.zsh-theme
 
 alias vim="nvim"
 alias vi="nvim"
@@ -74,43 +98,12 @@ alias docker-force-reset="compose-reset; docker rm -f $(docker ps -q -a); docker
 bindkey "^[[A" history-beginning-search-backward
 bindkey "^[[B" history-beginning-search-forward
 
-function zsh_platform_init() {
-  case "$(uname -sr)" in
-     Darwin*)
-       echo 'Mac OS X'
-       ssh-add --apple-use-keychain
-       ;;
-
-     Linux*Microsoft*)
-       echo 'WSL'  # Windows Subsystem for Linux
-       ssh-add ~/.ssh/id_ed25519_ssh > /dev/null 2>&1  
-       ;;
-
-     Linux*)
-       echo 'Linux'
-       ssh-add ~/.ssh/id_ed25519_ssh > /dev/null 2>&1  
-       ;;
-
-     CYGWIN*|MINGW*|MINGW32*|MSYS*)
-       echo 'MS Windows'
-       ;;
-     *)
-       echo 'Other OS'
-       ;;
-  esac
-}
-
 function zvm_after_init() {
   source ~/.zsh/zsh-autosuggestions/zsh-autosuggestions.zsh
   source /usr/share/fzf/key-bindings.zsh
   source /usr/share/fzf/completion.zsh
-
-  zsh_platform_init
-  unset zsh_platform_init
 }
 
-source /usr/share/zsh-theme-powerlevel10k/powerlevel10k.zsh-theme
-source /opt/asdf-vm/asdf.sh
 eval $(thefuck --alias)
 source /usr/share/zsh/plugins/zsh-vi-mode/zsh-vi-mode.plugin.zsh 
 eval "$(fasd --init auto)"
@@ -159,6 +152,14 @@ take () {
   fi
 }
 
+try_exec() {
+  test -x $1 && $1
+}
+
+try_source() {
+  test -x $1 && source $1
+}
+
 start_postgres () {
   docker run --name postgres -e POSTGRES_USER=postgres -e POSTGRES_PASSWORD=p      ostgres -p 5432:5432 -d postgres
 }
@@ -179,7 +180,6 @@ export PATH="$HOME/.asdf/installs/rust/1.59.0/bin:$PATH"
 export PATH="$HOME/.local/bin:$PATH"
 
 # Dev env
-
-. ~/.asdf/plugins/dotnet/set-dotnet-env.zsh
+try_source $ASDF_DATA_DIR/plugins/dotnet/set-dotnet-env.zsh
 
 [ -f "/home/lucasteles/.ghcup/env" ] && . "/home/lucasteles/.ghcup/env" # ghcup-env

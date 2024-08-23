@@ -10,4 +10,4 @@
 [core]
     autocrlf = true
 [credential "helperselector"]
-	selected = manager
+	selected = wincred
