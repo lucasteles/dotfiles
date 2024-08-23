@@ -9,7 +9,6 @@ export DOTNET_CLI_TELEMETRY_OPTOUT=1
 #[ -z "$TMUX"  ] && { tmux attach || exec tmux new-session && exit;}
 
 eval "$(ssh-agent -s)" > /dev/null 2>&1  
-ssh-add ~/.ssh/id_ed25519_ssh > /dev/null 2>&1  
 
 #set clipboard terminal
 # Enable Powerlevel10k instant prompt. Should stay close to the top of ~/.zshrc.
@@ -75,11 +74,39 @@ alias docker-force-reset="compose-reset; docker rm -f $(docker ps -q -a); docker
 bindkey "^[[A" history-beginning-search-backward
 bindkey "^[[B" history-beginning-search-forward
 
+function zsh_platform_init() {
+  case "$(uname -sr)" in
+     Darwin*)
+       echo 'Mac OS X'
+       ssh-add --apple-use-keychain
+       ;;
+
+     Linux*Microsoft*)
+       echo 'WSL'  # Windows Subsystem for Linux
+       ssh-add ~/.ssh/id_ed25519_ssh > /dev/null 2>&1  
+       ;;
+
+     Linux*)
+       echo 'Linux'
+       ssh-add ~/.ssh/id_ed25519_ssh > /dev/null 2>&1  
+       ;;
+
+     CYGWIN*|MINGW*|MINGW32*|MSYS*)
+       echo 'MS Windows'
+       ;;
+     *)
+       echo 'Other OS'
+       ;;
+  esac
+}
+
 function zvm_after_init() {
   source ~/.zsh/zsh-autosuggestions/zsh-autosuggestions.zsh
   source /usr/share/fzf/key-bindings.zsh
   source /usr/share/fzf/completion.zsh
-  ssh-add ~/.ssh/id_ed25519_ssh > /dev/null 2>&1
+
+  zsh_platform_init
+  unset zsh_platform_init
 }
 
 source /usr/share/zsh-theme-powerlevel10k/powerlevel10k.zsh-theme
@@ -130,6 +157,10 @@ take () {
   else
     takedir "$@"
   fi
+}
+
+start_postgres () {
+  docker run --name postgres -e POSTGRES_USER=postgres -e POSTGRES_PASSWORD=p      ostgres -p 5432:5432 -d postgres
 }
 
 # vi mode
