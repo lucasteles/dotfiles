@@ -34,15 +34,17 @@ function global:$name {
     $func | Invoke-Expression
 }
 
-Remove-Alias -ErrorAction Ignore -Name r
-Remove-Alias -ErrorAction Ignore -Name rm
+# Remove-Alias -ErrorAction Ignore -Name r
+# Remove-Alias -ErrorAction Ignore -Name rm
 Remove-Alias -ErrorAction Ignore -Name cat
 
 Add-Alias ~ 'Set-Location ~'
 Add-Alias .. 'Set-Location ..'
 Add-Alias gen-uuid '[guid]::NewGuid().ToString()'
+Add-Alias gen-uuid-v7 '[guid]::CreateVersion7().ToString()'
 Add-Alias vim 'nvim'
 Add-Alias vi 'nvim'
+Add-Alias zsh 'bash -c zsh'
 Add-Alias sln 'Invoke-Item *.sln'
 Add-Alias gitbranches 'Get-ChildItem -Attributes Directory,Directory+Hidden -ErrorAction SilentlyContinue -Include ".git" -Recurse ./ | % { $_.FullName + "\HEAD" } | % { $(cat $_ | grep "ref:").Replace("ref: refs/heads/","") + " -> " +  $_.Replace("\.git\HEAD","") }'
 Add-Alias cdf 'cd $(lsx -r -D | fzf)'
@@ -63,16 +65,17 @@ function sudo() {
     }
 }
 
-function get-uuid() {
-    return [System.Guid]::NewGuid().ToString()
-}
-
 function take() {
     param ([string] $path)
     if (!(Test-Path $path)) {
         New-Item -ItemType Directory -Force -Path $path
     }
     Set-Location $path
+}
+
+function which() {
+    param ([string] $file)
+    Get-Command $file | select Source
 }
 
 function netstatx {
@@ -106,7 +109,7 @@ function get-file-locker {
 }
 
 # Helper function to show Unicode character
-function U {
+function U-Char {
     param ([int] $Code)
 
     if ((0 -le $Code) -and ($Code -le 0xFFFF)) {
@@ -120,13 +123,15 @@ function U {
     throw "Invalid character code $Code"
 }
 
-function Convert-UnicodeToString {
+function U {
     [CmdletBinding()]
     param (
-        [Parameter(Mandatory = $true)]
+        [Parameter(Position = 0, Mandatory = $true)]
         [string] $UnicodeChars
     )
+    $UnicodeChars = $UnicodeChars.ToUpper()
     $UnicodeChars = $UnicodeChars -replace 'U\+', '';
+    $UnicodeChars = $UnicodeChars -replace 'U', '';
     $UnicodeArray = @();
     foreach ($UnicodeChar in $UnicodeChars.Split(' ')) {
         $Int = [System.Convert]::ToInt32($UnicodeChar, 16);
@@ -135,9 +140,9 @@ function Convert-UnicodeToString {
     $UnicodeArray -join [String]::Empty;
 }
 
-function Get-Random-Food-Emoji {
+function Get-Random-Food {
     $emojis = @("U+1F37A", "U+1F373", "U+1F370", "U+1F36A", "U+1F369", "U+1F364", "U+1F35E", "U+1F35D", "U+1F35C", "U+1F357", "U+1F356", "U+1F355", "U+1F354", "U+1F34C", "U+1F349", "U+1F344", "U+1F382")
-    $emoji = Convert-UnicodeToString -UnicodeChars (Get-Random -InputObject $emojis)
+    $emoji = U (Get-Random -InputObject $emojis)
     return $emoji
 }
 function Remove-Empty-Folders {
