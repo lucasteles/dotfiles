@@ -11,3 +11,5 @@
     autocrlf = true
 [credential "helperselector"]
 	selected = wincred
+[init]
+	defaultBranch = master

@@ -229,3 +229,51 @@ function Watch-Command {
         }
     }
 }
+
+function Convert-EOL-Unix {
+    param(
+        [parameter(Position = 0, Mandatory = $true)]
+        [String] $File
+    )
+
+    ((Get-Content $file) -join "`n") + "`n" | Set-Content -NoNewline $file
+}
+
+function Convert-Files-EOL-Unix {
+    param(
+        [parameter(Position = 0, Mandatory = $true)]
+        [String] $Path,
+        [parameter(Position = 1, Mandatory = $true)]
+        [String] $Ext
+    )
+
+    Get-ChildItem -Recurse -Path $Path -Filter $Ext | ForEach-Object {
+      Convert-EOL-Unix $_.FullName
+    }
+}
+
+function Convert-Files-UTF8 {
+    param(
+        [parameter(Position = 0, Mandatory = $true)]
+        [String] $Path,
+        [parameter(Position = 1, Mandatory = $true)]
+        [String] $Ext,
+        [Boolean] $ForceUnixLF = $true
+    )
+
+    Get-ChildItem -Recurse -Path $Path -Filter $Ext | ForEach-Object {
+      $content = Get-Content -Path $_.FullName
+
+      if ($ForceUnixLF) 
+      {
+        ($content -join "`n") + "`n" | Out-File -FilePath $_.FullName -NoNewline -Encoding UTF8
+      }
+      else
+      {
+        $content | Out-File -FilePath $_.FullName -Encoding UTF8
+      }
+    }
+}
+
+
+
