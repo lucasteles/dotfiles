@@ -4,6 +4,9 @@ $env:LC_ALL = 'C.UTF-8'
 $env:PYTHONIOENCODING = 'utf-8'
 $env:DOTNET_CLI_TELEMETRY_OPTOUT = 'true'
 
+$env:GODOT_EDITOR = 'C:\tools\godot_versions\Godot_v4_4_1-stable_mono_win64\Godot_v4.4.1-stable_mono_win64\Godot_v4.4.1-stable_mono_win64.exe'
+$env:GODOT_CONSOLE = 'C:\tools\godot_versions\Godot_v4_4_1-stable_mono_win64\Godot_v4.4.1-stable_mono_win64\Godot_v4.4.1-stable_mono_win64_console.exe'
+
 Import-Module DockerCompletion
 Import-Module npm-completion
 Import-Module Get-ChildItemColor
@@ -55,6 +58,9 @@ Add-Alias fzfp 'fzf --preview "bat --style=numbers --color=always {} | head -500
 Add-Alias cat 'bat'
 Add-Alias UpdateDotnetTools 'dotnet tool list -g | ForEach-Object {$index = 0} { $index++; if($index -gt 2) { dotnet tool update -g $_.split(" ")[0] } }'
 Add-Alias UpdateDotnetLocalTools 'dotnet tool list | ForEach-Object {$index = 0} { $index++; if($index -gt 2) { dotnet tool update -g $_.split(" ")[0] } }'
+Add-Alias grep 'Select-String -Pattern '
+Add-Alias loc 'tokei'
+Add-Alias refresh '. $PROFILE'
 
 function sudo() {
     if ($args.Length -eq 1) {
@@ -275,5 +281,23 @@ function Convert-Files-UTF8 {
     }
 }
 
+function Native-Definition {
+    param(
+        [parameter(Position = 0, Mandatory = $true)]
+        [Object] $Command 
+    )
 
+    $cmd = Get-Command $Command 
+    $meta = New-Object System.Management.Automation.CommandMetadata($cmd)
+    $src = [System.Management.Automation.ProxyCommand]::Create($meta)
+    $src | bat -l ps1
+}
+
+function Godot() {
+    Invoke-Expression "$env:GODOT_EDITOR $args"
+}
+
+function Godot-Console() {
+    Invoke-Expression "$env:GODOT_CONSOLE $args"
+}
 

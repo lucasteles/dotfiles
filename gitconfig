@@ -49,10 +49,10 @@
     lg2-specific = log --graph --abbrev-commit --decorate --format=format:'%C(bold blue)%h%C(reset) - %C(bold cyan)%aD%C(reset) %C(bold green)(%ar)%C(reset)%C(auto)%d%C(reset)%n''          %C(white)%s%C(reset) %C(dim white)- %an%C(reset)'
     lg3-specific = log --graph --abbrev-commit --decorate --format=format:'%C(bold blue)%h%C(reset) - %C(bold cyan)%aD%C(reset) %C(bold green)(%ar)%C(reset) %C(bold cyan)(committed: %cD)%C(reset) %C(auto)%d%C(reset)%n''          %C(white)%s%C(reset)%n''          %C(dim white)- %an <%ae> %C(reset) %C(dim white)(committer: %cn <%ce>)%C(reset)'
 
-    filesIn = diff-tree --no-commit-id --name-only -r
-    breset = "!git checkout master && git branch | grep -v -e master | xargs -n1 git branch -D"
-    breset-trunk = "!git checkout trunk && git branch | grep -v -e trunk | xargs -n1 git branch -D"
-    breset-main = "!git checkout main && git branch | grep -v -e main | xargs -n1 git branch -D"
+    files-in = diff-tree --no-commit-id --name-only -r
+    breset = "!git checkout master && git branch | grep -ve master | xargs -n1 git branch -D"
+    breset-trunk = "!git checkout trunk && git branch | grep -ve trunk | xargs -n1 git branch -D"
+    breset-main = "!git checkout main && git branch | grep -ve main | xargs -n1 git branch -D"
     st = status
     ci = commit -m
     cm = !git add -A && git commit  -m
@@ -66,7 +66,8 @@
     fixmessage = commit --amend -m
     un = !GIT_CURRENT_BRANCH=$(git rev-parse --abbrev-ref HEAD) && git log origin/$GIT_CURRENT_BRANCH..
     pend = !GIT_CURRENT_BRANCH=$(git rev-parse --abbrev-ref HEAD) && git log ..origin/$GIT_CURRENT_BRANCH
-    wip = !git add -A && git commit  -m "WIP"
+    cwip = commit -m "WIP"
+    wip = !git add -A && git commit -m "WIP"
     wipush = "!git wip; git push"
     force-wip = !git wip --no-verify --no-gpg-sign
     force-wipush = "!git force-wip; git push"
@@ -79,6 +80,6 @@
     fap = fetch --all --prune
     fapull = !git fetch --all --prune && git merge FETCH_HEAD
     bgone = !git branch -vv | grep ': gone]' | awk '{print $1}'
-    send = "!g() { git add -A && git commit  -m \"$*\" && "git push origin $(git rev-parse --abbrev-ref HEAD)"; }; g"
+    send = "!g() { git add -A && git commit -m \"$*\" && "git push origin $(git rev-parse --abbrev-ref HEAD)"; }; g"
     next = "!n() { git hard-reset && git log --reverse --pretty=%H master | grep -A 1 $(git rev-parse HEAD) | tail -n1 | xargs git checkout; }; n"
     prev = "!p() { git stash && git checkout HEAD^1; }; p"
