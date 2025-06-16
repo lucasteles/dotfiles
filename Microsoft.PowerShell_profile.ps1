@@ -264,7 +264,7 @@ function Convert-Files-UTF8 {
         [String] $Path,
         [parameter(Position = 1, Mandatory = $true)]
         [String] $Ext,
-        [Boolean] $ForceUnixLF = $true
+        [switch] $ForceUnixLF = $true
     )
 
     Get-ChildItem -Recurse -Path $Path -Filter $Ext | ForEach-Object {
@@ -293,6 +293,21 @@ function Native-Definition {
     $src | bat -l ps1
 }
 
+function Zip-Each-Directory {
+    param(
+        [switch] $Use7z = $false
+    )
+
+    if ($Use7z) 
+    {
+      Get-ChildItem -Directory | ForEach-Object { & "7z.exe" a $_.BaseName $_.Name }
+    }
+    else
+    {
+      Get-ChildItem -Directory | ForEach-Object { & "7z.exe" -tzip a $_.BaseName $_.Name }
+    }
+}
+
 function Godot() {
     Invoke-Expression "$env:GODOT_EDITOR $args"
 }
@@ -300,4 +315,5 @@ function Godot() {
 function Godot-Console() {
     Invoke-Expression "$env:GODOT_CONSOLE $args"
 }
+
 
