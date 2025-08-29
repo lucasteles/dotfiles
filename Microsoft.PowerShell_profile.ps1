@@ -4,9 +4,6 @@ $env:LC_ALL = 'C.UTF-8'
 $env:PYTHONIOENCODING = 'utf-8'
 $env:DOTNET_CLI_TELEMETRY_OPTOUT = 'true'
 
-$env:GODOT_EDITOR = 'C:\tools\godot_versions\Godot_v4_4_1-stable_mono_win64\Godot_v4.4.1-stable_mono_win64\Godot_v4.4.1-stable_mono_win64.exe'
-$env:GODOT_CONSOLE = 'C:\tools\godot_versions\Godot_v4_4_1-stable_mono_win64\Godot_v4.4.1-stable_mono_win64\Godot_v4.4.1-stable_mono_win64_console.exe'
-
 Import-Module DockerCompletion
 Import-Module npm-completion
 Import-Module Get-ChildItemColor
@@ -307,13 +304,4 @@ function Zip-Each-Directory {
       Get-ChildItem -Directory | ForEach-Object { & "7z.exe" -tzip a $_.BaseName $_.Name }
     }
 }
-
-function Godot() {
-    Invoke-Expression "$env:GODOT_EDITOR $args"
-}
-
-function Godot-Console() {
-    Invoke-Expression "$env:GODOT_CONSOLE $args"
-}
-
 
