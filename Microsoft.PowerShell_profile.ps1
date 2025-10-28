@@ -1,4 +1,11 @@
-oh-my-posh prompt init pwsh --config https://raw.githubusercontent.com/JanDeDobbeleer/oh-my-posh/v$(oh-my-posh --version)/themes/bubbles.omp.json | Invoke-Expression
+# oh-my-posh init pwsh | Invoke-Expression
+
+$ompTheme = "bubbles.omp.json"
+if (Test-Path -Path ~/$ompTheme) {
+   oh-my-posh init pwsh --config ~/$ompTheme | Invoke-Expression
+} else {
+   oh-my-posh init pwsh --config https://raw.githubusercontent.com/JanDeDobbeleer/oh-my-posh/v$(oh-my-posh --version)/themes/$ompTheme | Invoke-Expression
+}
 
 $env:LC_ALL = 'C.UTF-8'
 $env:PYTHONIOENCODING = 'utf-8'
@@ -55,7 +62,6 @@ Add-Alias fzfp 'fzf --preview "bat --style=numbers --color=always {} | head -500
 Add-Alias cat 'bat'
 Add-Alias UpdateDotnetTools 'dotnet tool list -g | ForEach-Object {$index = 0} { $index++; if($index -gt 2) { dotnet tool update -g $_.split(" ")[0] } }'
 Add-Alias UpdateDotnetLocalTools 'dotnet tool list | ForEach-Object {$index = 0} { $index++; if($index -gt 2) { dotnet tool update -g $_.split(" ")[0] } }'
-Add-Alias grep 'Select-String -Pattern '
 Add-Alias loc 'tokei'
 Add-Alias refresh '. $PROFILE'
 
@@ -81,6 +87,25 @@ function which() {
     Get-Command $file | select Source
 }
 
+function filter() {
+    param (
+        [Parameter(ValueFromPipeline = $true)]
+        $pipelineItem,
+        [parameter(Position = 0, Mandatory = $true)]
+        [string] $Pattern,
+        [switch] $Raw = $false,
+        [switch] $CaseSensitive = $false
+    )
+
+    process{
+        $args = @{
+            SimpleMatch = $Raw
+            CaseSensitive = $CaseSensitive
+        }
+        $pipelineItem | Select-String @args -Pattern $Pattern | Select-Object -ExpandProperty Line
+    }
+}
+
 function netstatx {
     netstat -ano | Where-Object { $_ -match 'LISTENING|UDP' } | ForEach-Object {
         $split = $_.Trim() -split "\s+"
@@ -100,7 +125,7 @@ function netstatx {
 function get-file-locker {
     param(
         [parameter(Position = 0, Mandatory = $true)]
-        [String] $FileOrFolderPath
+        [string] $FileOrFolderPath
     )
     IF ((Test-Path -Path $FileOrFolderPath) -eq $false) {
         Write-Warning "File or directory does not exist."
@@ -143,6 +168,24 @@ function U {
     $UnicodeArray -join [String]::Empty;
 }
 
+function Reset-Directory() {
+    param (
+        [parameter(Position = 0, Mandatory = $true)]
+        [string] $path
+    )
+    if (Test-Path $path -PathType Leaf) { throw "Path '$path' is not a directory" }
+    if (Test-Path $path) { Remove-Item -Force -Recurse -Path $path }
+    New-Item -ItemType Directory -Path $path | Out-Null
+}
+
+function Combine() {
+    param (
+        [parameter(Position = 0, ValueFromRemainingArguments = $true)]
+        [string[]] $paths
+    )
+    return [IO.Path]::Combine($paths)
+}
+
 function Get-Random-Food {
     $emojis = @("U+1F37A", "U+1F373", "U+1F370", "U+1F36A", "U+1F369", "U+1F364", "U+1F35E", "U+1F35D", "U+1F35C", "U+1F357", "U+1F356", "U+1F355", "U+1F354", "U+1F34C", "U+1F349", "U+1F344", "U+1F382")
     $emoji = U (Get-Random -InputObject $emojis)
@@ -158,10 +201,10 @@ function Remove-Empty-Folders {
 }
 function Find-Replace-Ocurrences {
     param(
-        [String] $Folder,
-        [String] $FilePattern,
-        [String] $TextToChange,
-        [String] $NewText
+        [string] $Folder,
+        [string] $FilePattern,
+        [string] $TextToChange,
+        [string] $NewText
     )
 
     function update-file-contents {
@@ -177,7 +220,7 @@ function Find-Replace-Ocurrences {
 
             if (-Not ($file -is [System.IO.DirectoryInfo])) {
                 Write-Output $("Changing: " + $file.name + " content..." )
-            (Get-Content $file.PSPath) | Foreach-Object { $_ -replace $TextToChange, $NewText } | Set-Content $file.PSPath
+                (Get-Content $file.PSPath) | Foreach-Object { $_ -replace $TextToChange, $NewText } | Set-Content $file.PSPath
             }
             $newFile = $file.name -replace $TextToChange, $NewText
             if ($file.name -ne $newFile) {
@@ -198,7 +241,7 @@ function Find-Replace-Ocurrences {
 function Get-Docker-Img-Size {
     param(
         [parameter(Position = 0, Mandatory = $true)]
-        [String] $Name
+        [string] $Name
     )
     $TmpFile = [System.IO.Path]::GetTempFileName() + ".tar"
     docker save $Name -o $TmpFile
@@ -210,21 +253,21 @@ function Get-Docker-Img-Size {
 }
 
 function Watch-Command {
-    [CmdletBinding(ConfirmImpact='High')]
+    [CmdletBinding(ConfirmImpact = 'High')]
     param (
-        [Parameter(Mandatory=$False,
-                   ValueFromPipeline=$True,
-                   ValueFromPipelineByPropertyName=$True)]
+        [Parameter(Mandatory = $False,
+            ValueFromPipeline = $True,
+            ValueFromPipelineByPropertyName = $True)]
         [int]$n = 10,
 
-        [Parameter(Mandatory=$True,
-                   ValueFromPipeline=$True,
-                   ValueFromPipelineByPropertyName=$True)]
+        [Parameter(Mandatory = $True,
+            ValueFromPipeline = $True,
+            ValueFromPipelineByPropertyName = $True)]
         [string]$command
     )
     process {
         $cmd = [scriptblock]::Create($command);
-        While($True) {
+        While ($True) {
             Clear-Host;
             Write-Host "Command: " $command;
             $cmd.Invoke();
@@ -236,7 +279,7 @@ function Watch-Command {
 function Convert-EOL-Unix {
     param(
         [parameter(Position = 0, Mandatory = $true)]
-        [String] $File
+        [string] $File
     )
 
     ((Get-Content $file) -join "`n") + "`n" | Set-Content -NoNewline $file
@@ -245,46 +288,44 @@ function Convert-EOL-Unix {
 function Convert-Files-EOL-Unix {
     param(
         [parameter(Position = 0, Mandatory = $true)]
-        [String] $Path,
+        [string] $Path,
         [parameter(Position = 1, Mandatory = $true)]
-        [String] $Ext
+        [string] $Ext
     )
 
     Get-ChildItem -Recurse -Path $Path -Filter $Ext | ForEach-Object {
-      Convert-EOL-Unix $_.FullName
+        Convert-EOL-Unix $_.FullName
     }
 }
 
 function Convert-Files-UTF8 {
     param(
         [parameter(Position = 0, Mandatory = $true)]
-        [String] $Path,
+        [string] $Path,
         [parameter(Position = 1, Mandatory = $true)]
-        [String] $Ext,
+        [string] $Ext,
         [switch] $ForceUnixLF = $true
     )
 
     Get-ChildItem -Recurse -Path $Path -Filter $Ext | ForEach-Object {
-      $content = Get-Content -Path $_.FullName
+        $content = Get-Content -Path $_.FullName
 
-      if ($ForceUnixLF) 
-      {
-        ($content -join "`n") + "`n" | Out-File -FilePath $_.FullName -NoNewline -Encoding UTF8
-      }
-      else
-      {
-        $content | Out-File -FilePath $_.FullName -Encoding UTF8
-      }
+        if ($ForceUnixLF) {
+            ($content -join "`n") + "`n" | Out-File -FilePath $_.FullName -NoNewline -Encoding UTF8
+        }
+        else {
+            $content | Out-File -FilePath $_.FullName -Encoding UTF8
+        }
     }
 }
 
 function Native-Definition {
     param(
         [parameter(Position = 0, Mandatory = $true)]
-        [Object] $Command 
+        [Object] $Command
     )
 
-    $cmd = Get-Command $Command 
+    $cmd = Get-Command $Command
     $meta = New-Object System.Management.Automation.CommandMetadata($cmd)
     $src = [System.Management.Automation.ProxyCommand]::Create($meta)
     $src | bat -l ps1
@@ -295,13 +336,11 @@ function Zip-Each-Directory {
         [switch] $Use7z = $false
     )
 
-    if ($Use7z) 
-    {
-      Get-ChildItem -Directory | ForEach-Object { & "7z.exe" a $_.BaseName $_.Name }
+    if ($Use7z) {
+        Get-ChildItem -Directory | ForEach-Object { & "7z.exe" a $_.BaseName $_.Name }
     }
-    else
-    {
-      Get-ChildItem -Directory | ForEach-Object { & "7z.exe" -tzip a $_.BaseName $_.Name }
+    else {
+        Get-ChildItem -Directory | ForEach-Object { & "7z.exe" -tzip a $_.BaseName $_.Name }
     }
 }
 
