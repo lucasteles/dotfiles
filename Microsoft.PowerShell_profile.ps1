@@ -26,9 +26,6 @@ Set-PSReadlineKeyHandler -Chord UpArrow -Function HistorySearchBackward
 Set-PSReadlineKeyHandler -Chord DownArrow -Function HistorySearchForward
 Set-PSReadlineKeyHandler -Key Tab -Function MenuComplete
 
-Invoke-Expression -Command $(gh completion -s powershell | Out-String)
-Invoke-Expression "$(thefuck --alias)"
-
 function Add-Alias($name, $alias) {
     $func = @"
 function global:$name {
@@ -44,7 +41,6 @@ function global:$name {
 # Remove-Alias -ErrorAction Ignore -Name r
 # Remove-Alias -ErrorAction Ignore -Name rm
 Remove-Alias -ErrorAction Ignore -Name cat
-
 Add-Alias ~ 'Set-Location ~'
 Add-Alias .. 'Set-Location ..'
 Add-Alias gen-uuid '[guid]::NewGuid().ToString()'
@@ -64,6 +60,27 @@ Add-Alias UpdateDotnetTools 'dotnet tool list -g | ForEach-Object {$index = 0} {
 Add-Alias UpdateDotnetLocalTools 'dotnet tool list | ForEach-Object {$index = 0} { $index++; if($index -gt 2) { dotnet tool update -g $_.split(" ")[0] } }'
 Add-Alias loc 'tokei'
 Add-Alias refresh '. $PROFILE'
+
+function Execute-Expression() {
+    param (
+        [Parameter(Mandatory = $false)]
+        [switch] $Eval = $false,
+        [Parameter(Mandatory = $true)]
+        [ValidateNotNullOrEmpty()]
+        [string] $Cmd,
+        [Parameter(Mandatory = $false, ValueFromRemainingArguments=$true)]
+        [string[]]$CmdArgs
+    )
+    if (Get-Command $Cmd -ErrorAction Ignore) {
+        $expr = "$($Cmd) $($CmdArgs -join " ")"
+        if ($Eval) { Invoke-Expression $expr | Out-String | Invoke-Expression }
+        else { Invoke-Expression -Command $expr }
+    }
+}
+
+Execute-Expression -Eval thefuck --alias
+Execute-Expression -Eval gh completion -s powershell
+Execute-Expression -Eval -ErrorAction SilentlyContinue dotnet completions script pwsh
 
 function sudo() {
     if ($args.Length -eq 1) {
@@ -97,7 +114,7 @@ function filter() {
         [switch] $CaseSensitive = $false
     )
 
-    process{
+    process {
         $args = @{
             SimpleMatch = $Raw
             CaseSensitive = $CaseSensitive
@@ -344,3 +361,10 @@ function Zip-Each-Directory {
     }
 }
 
+function Godot() {
+    Invoke-Expression "$env:GODOT_EDITOR $args"
+}
+
+function Godot-Console() {
+    Invoke-Expression "$env:GODOT_CONSOLE $args"
+}
