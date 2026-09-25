@@ -82,7 +82,7 @@ Execute-Expression -Eval thefuck --alias
 Execute-Expression -Eval gh completion -s powershell
 Execute-Expression -Eval -ErrorAction SilentlyContinue dotnet completions script pwsh
 
-function sudo() {
+function invoke-sudo() {
     if ($args.Length -eq 1) {
         start-process $args[0] -verb "runAs"
     }
@@ -183,6 +183,37 @@ function U {
         $UnicodeArray += [System.Char]::ConvertFromUtf32($Int);
     }
     $UnicodeArray -join [String]::Empty;
+}
+
+function New-Symlink {
+    [CmdletBinding()]
+    param(
+        [Parameter(Mandatory = $true)]
+        [string]$Path,
+
+        [Parameter(Mandatory = $true)]
+        [string]$Target,
+
+        [switch]$Force
+    )
+
+    process {
+        if (-not (Test-Path $Target)) {
+            Write-Error "Target path '$Target' does not exist."
+            return
+        }
+
+        if ((Test-Path $Path) -and $Force) { Remove-Item $Path -Force }
+
+        try {
+            New-Item -ItemType SymbolicLink -Path $Path -Value $Target -ErrorAction Stop
+            Write-Host "Successfully created symlink at '$Path' pointing to '$Target'." -ForegroundColor Green
+        }
+        catch {
+            Write-Error "Failed to create symlink: $_"
+            Write-Host "Note: Creating symlinks on Windows often requires running PowerShell as an Administrator." -ForegroundColor Yellow
+        }
+    }
 }
 
 function Reset-Directory() {
